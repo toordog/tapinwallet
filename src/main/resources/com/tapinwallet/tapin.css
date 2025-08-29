@@ -1,0 +1,44 @@
+/* Root */
+.root {
+    -fx-background-color: #f5f5f5; /* light gray */
+    -fx-font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+}
+
+/* Header */
+.app-header {
+    -fx-background-color: #3EB489; /* mint green */
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 12;
+}
+
+/* Logo text */
+.app-logo {
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 26px;
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.35), 4, 0.5, 1, 1);
+    -fx-letter-spacing: 1px;
+}
+
+/* Body */
+.app-body {
+    -fx-background-color: #ffffff;
+    -fx-padding: 20;
+    -fx-border-color: #dcdcdc;
+    -fx-border-width: 1;
+}
+
+/* Buttons */
+.button {
+    -fx-background-color: #3EB489; /* mint green */
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
+    -fx-background-radius: 6;
+    -fx-padding: 8 16;
+}
+.button:hover {
+    -fx-background-color: #34a07a;
+}
+.button:pressed {
+    -fx-background-color: #2a7f62;
+}

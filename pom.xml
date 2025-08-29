@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.tapinwallet</groupId>
+    <artifactId>tapinwallet</artifactId>
+    <version>1.0.0</version>
+    <name>TapinWallet</name>
+
+    <properties>
+        <maven.compiler.release>21</maven.compiler.release>
+        <javafx.version>24.0.2</javafx.version>
+        <gluonfx.maven.plugin.version>1.0.25</gluonfx.maven.plugin.version>
+        <mainClassName>com.tapinwallet.WalletApp</mainClassName>
+        <gluonfx.target>host</gluonfx.target>
+        <!-- used by javafx:run to fetch platform natives -->
+        <javafx.platform></javafx.platform>
+    </properties>
+
+    <dependencies>
+        <!-- JavaFX modules -->
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-fxml</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>com.gluonhq.attach</groupId>
+            <artifactId>util</artifactId>
+            <version>4.0.23</version>
+        </dependency>
+        
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!-- JVM dev run: mvn -q -DskipTests javafx:run -->
+            <plugin>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <version>0.0.8</version>
+                <configuration>
+                    <target>${gluonfx.target}</target>
+                    <javafxArtifacts>
+                        <javafxArtifact>javafx-controls</javafxArtifact>
+                        <javafxArtifact>javafx-fxml</javafxArtifact>
+                    </javafxArtifacts>
+                    <mainClass>${mainClassName}</mainClass>
+                    <appName>TapinWallet</appName>
+                    <target>${gluonfx.target}</target>
+                </configuration>
+            </plugin>
+
+            <!-- Native/mobile builds: e.g. mvn -Pandroid gluonfx:build gluonfx:package -->
+            <plugin>
+                <groupId>com.gluonhq</groupId>
+                <artifactId>gluonfx-maven-plugin</artifactId>
+                <version>${gluonfx.maven.plugin.version}</version>
+                <configuration>
+                    <target>${gluonfx.target}</target>
+                    <mainClass>${mainClassName}</mainClass>
+                    <appName>TapinWallet</appName>
+                    <!-- ensure FXML/CSS are bundled in native builds -->
+                    <resourcesList>
+                        <list>com/tapinwallet/.*</list>
+                    </resourcesList>
+                    
+                    <reflectionList>
+                        <list>com.tapinwallet.AppShellController</list>
+                        <list>com.tapinwallet.HomeViewController</list>
+                        <list>com.tapinwallet.SecondViewController</list>
+                    </reflectionList>
+                    
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.11.0</version>
+                <configuration>
+                    <release>${maven.compiler.release}</release>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <!-- set platform classifier for javafx:run so natives are downloaded -->
+    <profiles>
+        <profile>
+            <id>linux-x64</id>
+            <activation>
+                <os>
+                    <family>unix</family>
+                </os>
+                <property>
+                    <name>os.arch</name>
+                    <value>amd64</value>
+                </property>
+            </activation>
+            <properties>
+                <javafx.platform>linux</javafx.platform>
+            </properties>
+        </profile>
+        <profile>
+            <id>android</id>
+            <properties>
+                <gluonfx.target>android</gluonfx.target>
+            </properties>
+        </profile>
+        <profile>
+            <id>desktop</id>
+            <properties>
+                <gluonfx.target>host</gluonfx.target>
+            </properties>
+        </profile>
+    </profiles>
+</project>
