@@ -31,7 +31,11 @@
             <artifactId>javafx-fxml</artifactId>
             <version>${javafx.version}</version>
         </dependency>
-        
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-web</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
         <dependency>
             <groupId>com.gluonhq.attach</groupId>
             <artifactId>util</artifactId>
@@ -77,6 +81,8 @@
                         <list>com.tapinwallet.AppShellController</list>
                         <list>com.tapinwallet.HomeViewController</list>
                         <list>com.tapinwallet.SecondViewController</list>
+                        <list>com.tapinwallet.SetupViewController</list>
+                        <list>com.tapinwallet.ConfigManager</list>
                     </reflectionList>
                     
                 </configuration>

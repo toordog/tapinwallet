@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+
+<VBox xmlns="http://javafx.com/javafx/17"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.tapinwallet.SetupViewController"
+      alignment="CENTER" spacing="15">
+    <Label text="Welcome to Tapin Wallet" style="-fx-font-size: 20px;"/>
+    <Button text="Create Wallet" onAction="#handleCreateWallet"/>
+</VBox>

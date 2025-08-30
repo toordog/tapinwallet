@@ -10,11 +10,14 @@ import javafx.scene.layout.StackPane;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.scene.Node;
 
 public class AppShellController implements Initializable {
 
-    @FXML private BorderPane rootPane;       // must match fx:id in FXML
-    @FXML private StackPane bodyContainer;   // must match fx:id in FXML
+    @FXML
+    private BorderPane rootPane;       // must match fx:id in FXML
+    @FXML
+    private StackPane bodyContainer;   // must match fx:id in FXML
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -30,25 +33,28 @@ public class AppShellController implements Initializable {
         swapBody("SecondView.fxml");
     }
 
-    private void swapBody(String fxmlResource) {
+    public void swapBody(String fxmlName) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlResource));
-            Parent content = loader.load();
+            FXMLLoader loader = new FXMLLoader(WalletApp.class.getResource(fxmlName));
+            Node view = loader.load();
 
-            // wire the child controller back to this shell for navigation
-            Object child = loader.getController();
-            if (child instanceof HasHost) {
-                ((HasHost) child).setHost(this);
+            // Give the child controller access to the host
+            Object controller = loader.getController();
+            if (controller instanceof HasHost) {
+                ((HasHost) controller).setHost(this);
             }
 
-            bodyContainer.getChildren().setAll(content);
+            rootPane.setCenter(view);
         } catch (IOException e) {
-            throw new RuntimeException("Failed to load " + fxmlResource, e);
+            e.printStackTrace();
         }
     }
 
-    /** Optional small interface to let child pages get a reference to the shell. */
+    /**
+     * Optional small interface to let child pages get a reference to the shell.
+     */
     public interface HasHost {
+
         void setHost(AppShellController host);
     }
 }
