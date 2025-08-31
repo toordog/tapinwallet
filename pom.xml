@@ -37,6 +37,11 @@
             <version>${javafx.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-web</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
+        <dependency>
             <groupId>com.gluonhq.attach</groupId>
             <artifactId>util</artifactId>
             <version>4.0.23</version>
@@ -72,6 +77,11 @@
                     <target>${gluonfx.target}</target>
                     <mainClass>${mainClassName}</mainClass>
                     <appName>TapinWallet</appName>
+                    
+                    <args>
+                        <arg>-Dprism.useFontConfig=true</arg>
+                    </args>
+                    
                     <!-- ensure FXML/CSS are bundled in native builds -->
                     <resourcesList>
                         <list>com/tapinwallet/.*</list>
@@ -85,6 +95,15 @@
                         <list>com.tapinwallet.ConfigManager</list>
                     </reflectionList>
                     
+                    <!-- Make sure all JavaFX modules you use are listed -->
+                    <javafx>
+                        <version>${javafx.version}</version>
+                        <modules>
+                            <module>javafx.controls</module>
+                            <module>javafx.fxml</module>
+                            <module>javafx.web</module>
+                        </modules>
+                    </javafx>
                 </configuration>
             </plugin>
 

@@ -1,5 +1,5 @@
 adb pair <ip:port>     # enter the pairing code
-adb connect <ip:another_port_shown> 
+adb connect <ip:another_port_shown>
 adb devices
 
 # compile, package, install, run on android
