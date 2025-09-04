@@ -42,3 +42,46 @@
 .button:pressed {
     -fx-background-color: #2a7f62;
 }
+
+/* Base ListView style */
+/* List container */
+.list-view {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #cccccc;
+    -fx-border-width: 1;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+
+/* Row items */
+.list-cell {
+    -fx-padding: 12 16;
+    -fx-font-size: 16px; /* larger font */
+    -fx-background-color: linear-gradient(to bottom, #fafafa, #f5f5f5);
+    -fx-background-insets: 0;
+    -fx-text-fill: #333333;
+}
+
+/* Hover */
+.list-cell:filled:hover {
+    -fx-background-color: linear-gradient(to bottom, #f2f9f6, #eaf5f0);
+}
+
+/* Selected */
+.list-view:focused .list-cell:filled:selected,
+.list-cell:filled:selected {
+    -fx-background-color: #3EB489;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+/* Empty cells transparent */
+.list-cell:empty {
+    -fx-background-color: transparent;
+}
+
+/* Placeholder */
+.list-view .placeholder .label {
+    -fx-text-fill: #999999;
+    -fx-font-style: italic;
+}

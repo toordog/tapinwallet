@@ -1,9 +1,12 @@
-package com.tapinwallet;
+package com.tapinwallet.controllers;
 
+import com.tapinwallet.WalletApp;
+import com.tapinwallet.data.AppContext;
+import com.tapinwallet.data.BaseController;
+import com.tapinwallet.util.AppModHelper;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 
@@ -14,6 +17,8 @@ import javafx.scene.Node;
 
 public class AppShellController implements Initializable {
 
+    private AppContext ctx = new AppContext();
+    
     @FXML
     private BorderPane rootPane;       // must match fx:id in FXML
     @FXML
@@ -21,29 +26,35 @@ public class AppShellController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // load Home page by default
-        goHome();
+        AppModHelper.loadModFromDisk("xrpwallet", "index.xhtml");
+        AppModHelper.loadModFromDisk("proofmanager", "index.xhtml");
     }
 
     public void goHome() {
         swapBody("HomeView.fxml");
     }
 
-    public void goSecond() {
-        swapBody("SecondView.fxml");
+    public void goApp() {
+        swapBody("AppView.fxml");
     }
 
     public void swapBody(String fxmlName) {
+
         try {
             FXMLLoader loader = new FXMLLoader(WalletApp.class.getResource(fxmlName));
             Node view = loader.load();
-
+            
             // Give the child controller access to the host
             Object controller = loader.getController();
             if (controller instanceof HasHost) {
                 ((HasHost) controller).setHost(this);
-            }
+                
+                if(controller instanceof BaseController) {
+                    ((BaseController) controller).setAppContext(ctx);
+                }
 
+            } 
+            
             rootPane.setCenter(view);
         } catch (IOException e) {
             e.printStackTrace();

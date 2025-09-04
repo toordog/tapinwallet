@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>XRP Wallet</title>
+  <link rel="stylesheet" type="text/css" href="style.css" />
+  <script type="text/javascript" src="app.js"></script>
+</head>
+<body>
+  <div id="app" class="wrap">
+    <header class="topbar">
+      <div class="brand">
+        <span class="logo"><img src="icon.svg" alt="icon" class="logo-icon"/></span>
+        <span class="title">XRP Wallet</span>
+      </div>
+      <div class="account">
+        <span id="accountName">Main Account</span>
+      </div>
+    </header>
+
+    <section class="balance-card">
+      <div class="balance-label">Balance</div>
+      <div id="balance" class="balance-amount">0.000000 XRP</div>
+      <div class="actions">
+        <button id="btnReceive" class="btn secondary" type="button">Receive</button>
+        <button id="btnSend" class="btn primary" type="button">Send</button>
+      </div>
+    </section>
+
+    <section class="address-card" id="receiveCard" hidden="hidden">
+      <div class="address-row">
+        <div class="label">Your Address</div>
+        <div id="address" class="mono selectable">rXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</div>
+      </div>
+      <div class="address-actions">
+        <button id="btnCopy" class="btn" type="button">Copy</button>
+        <button id="btnHideReceive" class="btn ghost" type="button">Hide</button>
+      </div>
+    </section>
+
+    <section class="send-card" id="sendCard" hidden="hidden">
+      <div class="field">
+        <label for="sendTo">To</label>
+        <input id="sendTo" type="text" placeholder="r... destination" />
+      </div>
+      <div class="field">
+        <label for="sendAmount">Amount (XRP)</label>
+        <input id="sendAmount" type="number" step="0.000001" inputmode="decimal" placeholder="0.000001" />
+      </div>
+      <div class="field">
+        <label for="sendMemo">Memo (optional)</label>
+        <input id="sendMemo" type="text" placeholder="Memo" />
+      </div>
+      <div class="actions">
+        <button id="btnCancelSend" class="btn ghost" type="button">Cancel</button>
+        <button id="btnConfirmSend" class="btn primary" type="button">Confirm</button>
+      </div>
+    </section>
+
+    <section class="list-card">
+      <div class="list-header">
+        <span>Recent Activity</span>
+        <button id="btnRefresh" class="btn tiny" type="button">Refresh</button>
+      </div>
+      <ul id="txList" class="tx-list"></ul>
+    </section>
+  </div>
+</body>
+</html>

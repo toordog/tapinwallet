@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+    <head>
+        <title>Proof Manager</title>
+        <link rel="stylesheet" type="text/css" href="style.css" />
+    </head>
+    <body>
+        <div class="wrap">
+            <div class="topbar">
+                <div class="brand">
+                    <div class="logo"><img src="icon.svg" alt="icon" class="logo-icon"/></div>
+                    <div class="title">Manager</div>
+                </div>
+                <div class="actions top">
+                    <button id="btnNew" class="btn primary">Create</button>
+                    <button id="btnImport" class="btn">Import</button>
+                    <input id="fileImport" type="file" accept="application/json" style="display:none" />
+                </div>
+            </div>
+
+            <div class="toolbar">
+                <input id="search" class="search" type="search" placeholder="Search proofs…" />
+                <select id="statusFilter" class="select">
+                    <option value="">All</option>
+                    <option value="valid">Valid</option>
+                    <option value="expired">Expired</option>
+                    <option value="revoked">Revoked</option>
+                </select>
+            </div>
+
+            <div id="newForm" class="card form" style="display:none">
+                <div class="field">
+                    <label for="pName">Name</label>
+                    <input id="pName" type="text" />
+                </div>
+                <div class="field">
+                    <label for="pDays">Expires in (days)</label>
+                    <input id="pDays" type="number" min="1" value="30" />
+                </div>
+                <div class="field">
+                    <label for="pNotes">Notes</label>
+                    <textarea id="pNotes" rows="3"></textarea>
+                </div>
+                <div class="actions">
+                    <button id="saveProof" class="btn primary">Generate</button>
+                    <button id="cancelNew" class="btn ghost">Cancel</button>
+                </div>
+            </div>
+
+            <div class="list-card">
+                <div class="list-header">Proofs <span id="count" class="muted"></span></div>
+                <ul id="list" class="tx-list"></ul>
+            </div>
+        </div>
+
+        <div id="detail" class="sheet" aria-hidden="true">
+            <div class="sheet-inner">
+                <div class="sheet-head">
+                    <div class="sheet-title">Proof</div>
+                    <button id="closeDetail" class="btn tiny ghost">Close</button>
+                </div>
+                <div id="detailBody" class="sheet-body mono small"></div>
+                <div class="actions">
+                    <button id="btnCopy" class="btn">Copy JSON</button>
+                    <button id="btnExport" class="btn">Export JSON</button>
+                </div>
+            </div>
+        </div>
+
+        <script type="text/javascript" src="app.js"></script>
+    </body>
+</html>
+

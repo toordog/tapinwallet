@@ -1,5 +1,6 @@
 package com.tapinwallet;
 
+import com.tapinwallet.controllers.AppShellController;
 import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -11,6 +12,10 @@ public class WalletApp extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
+        
+        // need to find a font that look clean
+//        Font.loadFont(getClass().getResourceAsStream("/fonts/Roboto-Regular.ttf"), 12);
+        
         FXMLLoader loader = new FXMLLoader(WalletApp.class.getResource("AppShell.fxml"));
         Scene scene = new Scene(loader.load(), 400, 800);
 

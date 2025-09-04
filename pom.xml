@@ -37,11 +37,6 @@
             <version>${javafx.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.openjfx</groupId>
-            <artifactId>javafx-web</artifactId>
-            <version>${javafx.version}</version>
-        </dependency>
-        <dependency>
             <groupId>com.gluonhq.attach</groupId>
             <artifactId>util</artifactId>
             <version>4.0.23</version>
@@ -50,6 +45,14 @@
     </dependencies>
 
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*</include>
+                </includes>
+            </resource>
+        </resources>
         <plugins>
             <!-- JVM dev run: mvn -q -DskipTests javafx:run -->
             <plugin>
@@ -85,14 +88,18 @@
                     <!-- ensure FXML/CSS are bundled in native builds -->
                     <resourcesList>
                         <list>com/tapinwallet/.*</list>
+                        <list>appmods/.*</list>
+                        <list>defaults/.*</list>
+                        <list>fonts/*.ttf</list>
+                        <!--<list>icons/.*.(png|jpg|gif)</list>-->
                     </resourcesList>
                     
                     <reflectionList>
-                        <list>com.tapinwallet.AppShellController</list>
-                        <list>com.tapinwallet.HomeViewController</list>
-                        <list>com.tapinwallet.SecondViewController</list>
-                        <list>com.tapinwallet.SetupViewController</list>
-                        <list>com.tapinwallet.ConfigManager</list>
+                        <list>com.tapinwallet.controllers.AppShellController</list>
+                        <list>com.tapinwallet.controllers.HomeViewController</list>
+                        <list>com.tapinwallet.controllers.AppViewController</list>
+                        <list>com.tapinwallet.controllers.SetupViewController</list>
+                        <list>com.tapinwallet.controllers.ConfigManager</list>
                     </reflectionList>
                     
                     <!-- Make sure all JavaFX modules you use are listed -->
@@ -104,6 +111,11 @@
                             <module>javafx.web</module>
                         </modules>
                     </javafx>
+                    
+                    <graalvmArgs>
+                        <!--<arg>-H:IncludeResources=appmods/xrpwallet/.*</arg>-->
+                        <arg>-H:IncludeResources=appmods/.*</arg>
+                    </graalvmArgs>
                 </configuration>
             </plugin>
 
