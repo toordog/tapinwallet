@@ -6,10 +6,6 @@ import com.tapinwallet.util.JSBridge;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.web.WebView;
-
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.*;
 import javafx.concurrent.Worker;
 import javafx.scene.web.WebEngine;
 import netscape.javascript.JSObject;

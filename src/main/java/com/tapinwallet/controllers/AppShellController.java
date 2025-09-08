@@ -20,14 +20,13 @@ public class AppShellController implements Initializable {
     private AppContext ctx = new AppContext();
     
     @FXML
-    private BorderPane rootPane;       // must match fx:id in FXML
-    @FXML
-    private StackPane bodyContainer;   // must match fx:id in FXML
+    private BorderPane rootPane;
+    
+//    @FXML
+//    private StackPane bodyContainer;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-//        AppModHelper.loadModFromResources("xrpwallet", "index.xhtml");
-//        AppModHelper.loadModFromResources("proofmanager", "index.xhtml");
         AppModHelper.loadModFromResources("base_template", "index.xhtml");
     }
 
@@ -66,7 +65,6 @@ public class AppShellController implements Initializable {
      * Optional small interface to let child pages get a reference to the shell.
      */
     public interface HasHost {
-
         void setHost(AppShellController host);
     }
 }
