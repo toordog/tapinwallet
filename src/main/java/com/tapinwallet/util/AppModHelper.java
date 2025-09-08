@@ -4,6 +4,8 @@
  */
 package com.tapinwallet.util;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tapinwallet.data.ModEntry;
 import com.tapinwallet.controllers.AppViewController;
 import java.io.IOException;
@@ -18,6 +20,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.nio.file.StandardOpenOption;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.jar.JarFile;
@@ -37,20 +41,17 @@ public class AppModHelper {
                 if (!Files.isDirectory(dir)) {
                     continue;
                 }
-                String modName = dir.getFileName().toString();
-                String entry = null;
-                try (DirectoryStream<Path> fs = Files.newDirectoryStream(dir, "*.xhtml")) {
-                    for (Path f : fs) {
-                        String fn = f.getFileName().toString();
-                        if (!fn.endsWith(".tapin.xhtml")) {
-                            entry = fn;
-                            break;
-                        }
-                    }
-                }
-                if (entry != null) {
-                    mods.add(new ModEntry(modName, entry));
-                }
+
+                String entry = "index.xhtml";
+                String pkg = dir.toString() + "/package.json";
+
+                String jsonContent = Files.readString(dir.resolve(pkg));
+                ObjectMapper mapper = new ObjectMapper();
+                JsonNode root = mapper.readTree(jsonContent);
+
+                String modName = root.get("name").asText();                
+                mods.add(new ModEntry(modName, entry, dir.getFileName().toString()));
+
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -58,23 +59,31 @@ public class AppModHelper {
         return mods;
     }
 
-    // Base directory: default ~/appmods; override with -Dtapin.mods.dir=/path
-    private static Path modsBase() {
-        String override = System.getProperty("tapin.mods.dir");
-        Path base = (override != null && !override.isBlank())
-                ? Paths.get(override)
-                : Paths.get(System.getProperty("user.home"), "appmods");
-        try {
-            Files.createDirectories(base);
-        } catch (Exception ignored) {
-        }
-        return base;
-    }
-
     public static String loadModFromDisk(String modName, String entryFile) {
+        
         try {
             Path base = modsBase();
             Path modDir = base.resolve(modName);
+
+            // 3) patch entry with relative link to ../tapin-default.css
+            String cssHref = "../tapin-default.css";
+            Path toLoad = patchEntryWithDefaults(modDir, entryFile, cssHref);
+
+            // 4) load patched file
+            String url = toLoad.toUri().toString(); // file://...
+
+            return url;
+
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public static String loadModFromResources(String modName, String entryFile) {
+        try {
+            
+            Path base = modsBase();
+            Path modDir = base.resolve(hashName(modName));
 
             // 1) bootstrap example mod if missing
             ensureModOnDisk(modName, modDir);
@@ -98,10 +107,11 @@ public class AppModHelper {
 
     private static void ensureModOnDisk(String modName, Path modDir) {
         String cp = "appmods/" + modName;
+        
         if (modDir.toFile().exists()) {
             return;
         }
-
+        
         try {
             copyResourceDir(cp, modDir);
         } catch (IOException ioe) {
@@ -127,8 +137,10 @@ public class AppModHelper {
 
     // Patch entry XHTML to inject viewport + shared cssHref
     private static Path patchEntryWithDefaults(Path modDir, String entryFile, String cssHref) {
+        
         try {
             Path src = modDir.resolve(entryFile);
+            
             if (!Files.exists(src)) {
                 return src;
             }
@@ -165,12 +177,12 @@ public class AppModHelper {
             if (!changed) {
                 return src;
             }
-
+            
             String stagedName = entryFile.endsWith(".xhtml")
                     ? entryFile.substring(0, entryFile.length() - ".xhtml".length()) + ".xhtml"
                     : entryFile + ".tapin";
             Path staged = modDir.resolve(stagedName);
-
+            
             Files.writeString(staged, html, StandardCharsets.UTF_8);
             return staged;
 
@@ -179,53 +191,70 @@ public class AppModHelper {
             return modDir.resolve(entryFile);
         }
     }
+    
+    private static void copyResourceDir(String resourceDir, Path targetDir) throws IOException {
 
-    public static void copyResourceDir(String resourceDir, Path targetDir) throws IOException {
         URL url = AppModHelper.class.getResource("/" + resourceDir);
         if (url == null) {
             throw new IOException("Resource directory not found: " + resourceDir);
         }
 
-        String protocol = url.getProtocol();
-        if ("jar".equals(protocol)) {
-            // Running from JAR
-            JarURLConnection jarConnection = (JarURLConnection) url.openConnection();
-            try (JarFile jarFile = jarConnection.getJarFile()) {
-                jarFile.stream()
-                        .filter(e -> e.getName().startsWith(resourceDir + "/") && !e.isDirectory())
-                        .forEach(entry -> {
-                            try (InputStream in = jarFile.getInputStream(entry)) {
-                                Path outFile = targetDir.resolve(entry.getName().substring(resourceDir.length() + 1));
-                                Files.createDirectories(outFile.getParent());
-                                Files.copy(in, outFile, StandardCopyOption.REPLACE_EXISTING);
-                            } catch (IOException e1) {
-                                throw new RuntimeException(e1);
-                            }
-                        });
-            }
-        } else {
-            // Running from classes folder or Android native image (GraalVM)
-            // We cannot walk the filesystem here; resources are embedded.
-            String[] knownFiles = new String[]{
-                "index.xhtml",
-                "style.css",
-                "app.js",
-                "icon.svg"
-            };
+        // Running from classes folder or Android native image (GraalVM)
+        // We cannot walk the filesystem here; resources are embedded.
+        String[] knownFiles = new String[]{
+            "index.xhtml",
+            "style.css",
+            "app.js",
+            "icon.svg",
+            "package.json"
+        };
 
-            for (String fileName : knownFiles) {
-                String resourcePath = "/" + resourceDir + "/" + fileName;
-                try (InputStream in = AppModHelper.class.getResourceAsStream(resourcePath)) {
-                    if (in == null) {
-                        continue; // skip if missing
-                    }
-                    Path outFile = targetDir.resolve(fileName);
+        for (String fileName : knownFiles) {
+            String resourcePath = "/" + resourceDir + "/" + fileName;
+            try (InputStream in = AppModHelper.class.getResourceAsStream(resourcePath)) {
+                if (in == null) {
+                    continue; // skip if missing
+                }
+
+                // XXX : hash the path name
+                Path outFile = targetDir.resolve(fileName);
+
+                if (!outFile.getParent().toFile().exists()) {
                     Files.createDirectories(outFile.getParent());
-                    try (OutputStream out = Files.newOutputStream(outFile, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING)) {
-                        in.transferTo(out);
-                    }
+                }
+                try (OutputStream out = Files.newOutputStream(outFile, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING)) {
+                    in.transferTo(out);
                 }
             }
+        }
+    }
+
+    // Base directory: default ~/appmods; override with -Dtapin.mods.dir=/path
+    private static Path modsBase() {
+        String override = System.getProperty("tapin.mods.dir");
+        Path base = (override != null && !override.isBlank())
+                ? Paths.get(override)
+                : Paths.get(System.getProperty("user.home"), "appmods");
+        try {
+            Files.createDirectories(base);
+        } catch (Exception ignored) {
+        }
+        return base;
+    }
+
+    public static String hashName(String name) {
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hashBytes = digest.digest(name.getBytes(StandardCharsets.UTF_8));
+
+            // Convert to hex string
+            StringBuilder hex = new StringBuilder();
+            for (byte b : hashBytes) {
+                hex.append(String.format("%02x", b));
+            }
+            return hex.toString();
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException("Hash algorithm not found", e);
         }
     }
 

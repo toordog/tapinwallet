@@ -26,8 +26,9 @@ public class AppShellController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        AppModHelper.loadModFromDisk("xrpwallet", "index.xhtml");
-        AppModHelper.loadModFromDisk("proofmanager", "index.xhtml");
+//        AppModHelper.loadModFromResources("xrpwallet", "index.xhtml");
+//        AppModHelper.loadModFromResources("proofmanager", "index.xhtml");
+        AppModHelper.loadModFromResources("base_template", "index.xhtml");
     }
 
     public void goHome() {

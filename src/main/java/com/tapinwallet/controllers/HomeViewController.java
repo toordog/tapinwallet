@@ -20,6 +20,7 @@ public class HomeViewController extends BaseController implements AppShellContro
 
         appModList.setOnMouseClicked(event -> {
             ModEntry selected = appModList.getSelectionModel().getSelectedItem();
+
             if (selected != null) {
                 
                 ctx.setSelectedMod(selected);
