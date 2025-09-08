@@ -12,12 +12,14 @@
         "allDeclaredFields": true
     },
     {
+        "name": "javafx.scene.layout.TilePane",
+        "allDeclaredConstructors": true,
+        "allDeclaredMethods": true,
+        "allDeclaredFields": true
+    },
+    {
         "name": "com.tapinwallet.util.JSBridge",
         "methods": [
-            {
-                "name": "test",
-                "parameterTypes": ["java.lang.String"]
-            },
             {
                 "name": "encrypt",
                 "parameterTypes": ["java.lang.String","netscape.javascript.JSObject"]

@@ -4,35 +4,66 @@ import com.tapinwallet.data.BaseController;
 import com.tapinwallet.util.AppModHelper;
 import com.tapinwallet.data.ModEntry;
 import java.util.List;
-import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.scene.control.ListView;
+import javafx.geometry.Pos;
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.TilePane;
+import javafx.scene.layout.VBox;
 
 public class HomeViewController extends BaseController implements AppShellController.HasHost {
 
     private AppShellController host;
 
     @FXML
-    ListView<ModEntry> appModList;
+    TilePane appPane;
 
     @FXML
     public void initialize() {
 
-        appModList.setOnMouseClicked(event -> {
-            ModEntry selected = appModList.getSelectionModel().getSelectedItem();
+        List<ModEntry> appmods = AppModHelper.listAvailableModsWithEntries();
+        appmods.stream().forEach(mod -> {
 
-            if (selected != null) {
+            VBox holder = new VBox();
+            holder.setAlignment(Pos.CENTER);
+            holder.setSpacing(5);
+            holder.getStyleClass().add("app-icon");
+
+            Label label = new Label(mod.name());
+            label.getStyleClass().add("app-icon-text");
+
+            if (mod.id().equals("appviewicon")) {
+                ImageView iconView = new ImageView(new Image(getClass().getResource("/META-INF/img/box.png").toExternalForm()));
+                iconView.getStyleClass().add("app-icon-img");
+                iconView.setFitWidth(32);
+                iconView.setFitHeight(32);
+
+                holder.setOnMousePressed(e -> iconView.pseudoClassStateChanged(javafx.css.PseudoClass.getPseudoClass("pressed"), true));
+                holder.setOnMouseReleased(e -> iconView.pseudoClassStateChanged(javafx.css.PseudoClass.getPseudoClass("pressed"), false));
                 
-                ctx.setSelectedMod(selected);
-                
+                holder.getChildren().addAll(iconView, label);
+            } else {
+                Label icon = new Label("APP");
+                icon.getStyleClass().add("app-icon-img");
+
+                holder.setOnMousePressed(e -> icon.pseudoClassStateChanged(javafx.css.PseudoClass.getPseudoClass("pressed"), true));
+                holder.setOnMouseReleased(e -> icon.pseudoClassStateChanged(javafx.css.PseudoClass.getPseudoClass("pressed"), false));
+
+                holder.getChildren().addAll(icon, label);
+            }
+
+            holder.setOnMouseClicked(e -> {
+                ctx.setSelectedMod(mod);
                 if (host != null) {
                     host.goApp();
                 }
-            }
+            });
+
+            appPane.getChildren().add(holder);
+
         });
 
-        List<ModEntry> appmods = AppModHelper.listAvailableModsWithEntries();
-        appModList.setItems(FXCollections.observableArrayList(appmods));
     }
 
     @Override
@@ -40,51 +71,4 @@ public class HomeViewController extends BaseController implements AppShellContro
         this.host = host;
     }
 
-//    @FXML
-//    private void handleGoSecond() {
-//        if (host != null) {
-//            host.goSecond();
-//        }
-//    }
-//    public List<ModEntry> listAvailableModsWithEntries() {
-//        List<ModEntry> mods = new ArrayList<>();
-//        Path base = modsBase();
-//        try (DirectoryStream<Path> ds = Files.newDirectoryStream(base)) {
-//            for (Path dir : ds) {
-//                if (!Files.isDirectory(dir)) {
-//                    continue;
-//                }
-//                String modName = dir.getFileName().toString();
-//                String entry = null;
-//                try (DirectoryStream<Path> fs = Files.newDirectoryStream(dir, "*.xhtml")) {
-//                    for (Path f : fs) {
-//                        String fn = f.getFileName().toString();
-//                        if (!fn.endsWith(".tapin.xhtml")) {
-//                            entry = fn;
-//                            break;
-//                        }
-//                    }
-//                }
-//                if (entry != null) {
-//                    mods.add(new ModEntry(modName, entry));
-//                }
-//            }
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        return mods;
-//    }
-//
-//    // Base directory: default ~/appmods; override with -Dtapin.mods.dir=/path
-//    private Path modsBase() {
-//        String override = System.getProperty("tapin.mods.dir");
-//        Path base = (override != null && !override.isBlank())
-//                ? Paths.get(override)
-//                : Paths.get(System.getProperty("user.home"), "appmods");
-//        try {
-//            Files.createDirectories(base);
-//        } catch (Exception ignored) {
-//        }
-//        return base;
-//    }
 }

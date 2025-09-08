@@ -85,3 +85,36 @@
     -fx-text-fill: #999999;
     -fx-font-style: italic;
 }
+
+.app-icon {
+    -fx-alignment: center;
+    -fx-spacing: 2px;
+    -fx-padding: 8px;
+}
+
+.app-icon-img {
+    -fx-font-size: 18px;
+    -fx-text-fill: #0f1220;
+    -fx-padding: 8;
+    -fx-background-color: white;
+    -fx-background-radius: 8;
+
+    /* floating look - shadow directly under */
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 10, 0.3, 0, 0);
+    -fx-translate-y: -2; /* lift it slightly */
+    -fx-transition: all 0.12s ease-in-out;
+}
+
+.app-icon-img:pressed {
+    /* pressed closer to surface */
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.18), 4, 0.2, 0, 0);
+    -fx-translate-y: 0;
+    -fx-background-color: #f3f3f3;
+}
+
+.app-icon-text {
+    -fx-font-size: 12px;
+    -fx-text-fill: #666666;
+    -fx-text-alignment: center;
+}
+

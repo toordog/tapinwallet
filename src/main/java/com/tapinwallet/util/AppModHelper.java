@@ -28,6 +28,8 @@ import java.util.jar.JarFile;
  */
 public class AppModHelper {
 
+    private static String APPMOD_DEFAULT = "appmod-default.css";
+    
     // -------- core --------
     public static List<ModEntry> listAvailableModsWithEntries() {
         List<ModEntry> mods = new ArrayList<>();
@@ -45,8 +47,9 @@ public class AppModHelper {
                 ObjectMapper mapper = new ObjectMapper();
                 JsonNode root = mapper.readTree(jsonContent);
 
-                String modName = root.get("name").asText();                
-                mods.add(new ModEntry(modName, entry, dir.getFileName().toString()));
+                String modName = root.get("name").asText();    
+                String id = root.get("id").asText();
+                mods.add(new ModEntry(id,modName, entry, dir.getFileName().toString()));
 
             }
         } catch (IOException e) {
@@ -62,7 +65,7 @@ public class AppModHelper {
             Path modDir = base.resolve(modName);
 
             // 3) patch entry with relative link to ../tapin-default.css
-            String cssHref = "../tapin-default.css";
+            String cssHref = "../"+APPMOD_DEFAULT;
             Path toLoad = patchEntryWithDefaults(modDir, entryFile, cssHref);
 
             // 4) load patched file
@@ -88,7 +91,7 @@ public class AppModHelper {
             ensureDefaultCss(base);
 
             // 3) patch entry with relative link to ../tapin-default.css
-            String cssHref = "../tapin-default.css";
+            String cssHref = "../"+APPMOD_DEFAULT;
             Path toLoad = patchEntryWithDefaults(modDir, entryFile, cssHref);
 
             // 4) load patched file
@@ -117,11 +120,11 @@ public class AppModHelper {
 
     // Ensure tapin-default.css exists ONCE in the base dir
     private static void ensureDefaultCss(Path baseDir) {
-        Path dst = baseDir.resolve("tapin-default.css");
+        Path dst = baseDir.resolve(APPMOD_DEFAULT);
         if (Files.exists(dst)) {
             return;
         }
-        try (InputStream in = AppViewController.class.getResourceAsStream("/defaults/tapin-default.css")) {
+        try (InputStream in = AppViewController.class.getResourceAsStream("/defaults/"+APPMOD_DEFAULT)) {
             if (in != null) {
                 Files.createDirectories(baseDir);
                 Files.copy(in, dst, StandardCopyOption.REPLACE_EXISTING);
@@ -164,7 +167,7 @@ public class AppModHelper {
             }
 
             // inject shared tapin-default.css link if absent
-            if (!html.matches("(?is).*<link[^>]+href\\s*=\\s*['\"][^'\"]*tapin-default\\.css['\"][^>]*>.*")) {
+            if (!html.matches("(?is).*<link[^>]+href\\s*=\\s*['\"][^'\"]*"+APPMOD_DEFAULT.replace(".", "\\.")+"['\"][^>]*>.*")) {
                 String link = "<link rel=\"stylesheet\" href=\"" + cssHref + "\" />";
                 html = html.replaceFirst("(?is)</head>", link + "\n</head>");
                 changed = true;
@@ -201,7 +204,7 @@ public class AppModHelper {
             "index.xhtml",
             "style.css",
             "app.js",
-            "icon.svg",
+            "box.png",
             "package.json"
         };
 
