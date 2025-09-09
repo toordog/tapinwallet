@@ -22,11 +22,12 @@ public class AppShellController implements Initializable {
     @FXML
     private BorderPane rootPane;
     
-//    @FXML
-//    private StackPane bodyContainer;
-
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        
+        // for testing a second app mod
+        AppModHelper.loadModFromResources("proofmanager", "index.xhtml");
+        AppModHelper.loadModFromResources("xrplwallet", "index.xhtml");
         AppModHelper.loadModFromResources("base_template", "index.xhtml");
     }
 

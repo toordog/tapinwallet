@@ -86,10 +86,32 @@
     -fx-font-style: italic;
 }
 
+.tile-tray {
+    /* subtle gradient: darker edges, lighter center */
+    -fx-background-color: linear-gradient(
+        to bottom,
+        #e9e9e9,   /* top edge */
+        #f6f6f6 40%,
+        #f6f6f6 60%,
+        #e9e9e9    /* bottom edge */
+    );
+
+    -fx-border-color: #c8c8c8;
+    -fx-border-width: 1;
+
+    /* slightly stronger recessed shadow */
+    -fx-effect: innershadow(gaussian, rgba(0,0,0,0.28), 9, 0.45, 0, 1);
+
+    -fx-padding: 14;
+    -fx-hgap: 14;
+    -fx-vgap: 14;
+}
+
+
 .app-icon {
     -fx-alignment: center;
     -fx-spacing: 2px;
-    -fx-padding: 8px;
+    -fx-padding: 4px;
 }
 
 .app-icon-img {

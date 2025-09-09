@@ -29,7 +29,7 @@ import java.util.jar.JarFile;
 public class AppModHelper {
 
     private static String APPMOD_DEFAULT = "appmod-default.css";
-    
+
     // -------- core --------
     public static List<ModEntry> listAvailableModsWithEntries() {
         List<ModEntry> mods = new ArrayList<>();
@@ -44,12 +44,14 @@ public class AppModHelper {
                 String pkg = dir.toString() + "/package.json";
 
                 String jsonContent = Files.readString(dir.resolve(pkg));
+                
                 ObjectMapper mapper = new ObjectMapper();
                 JsonNode root = mapper.readTree(jsonContent);
 
-                String modName = root.get("name").asText();    
+                String modName = root.get("name").asText();
                 String id = root.get("id").asText();
-                mods.add(new ModEntry(id,modName, entry, dir.getFileName().toString()));
+                String icon = root.get("icon").asText();
+                mods.add(new ModEntry(id, modName, icon, entry, dir.getFileName().toString()));
 
             }
         } catch (IOException e) {
@@ -59,13 +61,13 @@ public class AppModHelper {
     }
 
     public static String loadModFromDisk(String modName, String entryFile) {
-        
+
         try {
             Path base = modsBase();
             Path modDir = base.resolve(modName);
 
             // 3) patch entry with relative link to ../tapin-default.css
-            String cssHref = "../"+APPMOD_DEFAULT;
+            String cssHref = "../" + APPMOD_DEFAULT;
             Path toLoad = patchEntryWithDefaults(modDir, entryFile, cssHref);
 
             // 4) load patched file
@@ -80,7 +82,7 @@ public class AppModHelper {
 
     public static String loadModFromResources(String modName, String entryFile) {
         try {
-            
+
             Path base = modsBase();
             Path modDir = base.resolve(hashName(modName));
 
@@ -91,7 +93,7 @@ public class AppModHelper {
             ensureDefaultCss(base);
 
             // 3) patch entry with relative link to ../tapin-default.css
-            String cssHref = "../"+APPMOD_DEFAULT;
+            String cssHref = "../" + APPMOD_DEFAULT;
             Path toLoad = patchEntryWithDefaults(modDir, entryFile, cssHref);
 
             // 4) load patched file
@@ -106,11 +108,11 @@ public class AppModHelper {
 
     private static void ensureModOnDisk(String modName, Path modDir) {
         String cp = "appmods/" + modName;
-        
+
         if (modDir.toFile().exists()) {
             return;
         }
-        
+
         try {
             copyResourceDir(cp, modDir);
         } catch (IOException ioe) {
@@ -124,7 +126,7 @@ public class AppModHelper {
         if (Files.exists(dst)) {
             return;
         }
-        try (InputStream in = AppViewController.class.getResourceAsStream("/defaults/"+APPMOD_DEFAULT)) {
+        try (InputStream in = AppViewController.class.getResourceAsStream("/defaults/" + APPMOD_DEFAULT)) {
             if (in != null) {
                 Files.createDirectories(baseDir);
                 Files.copy(in, dst, StandardCopyOption.REPLACE_EXISTING);
@@ -136,10 +138,10 @@ public class AppModHelper {
 
     // Patch entry XHTML to inject viewport + shared cssHref
     private static Path patchEntryWithDefaults(Path modDir, String entryFile, String cssHref) {
-        
+
         try {
             Path src = modDir.resolve(entryFile);
-            
+
             if (!Files.exists(src)) {
                 return src;
             }
@@ -167,7 +169,7 @@ public class AppModHelper {
             }
 
             // inject shared tapin-default.css link if absent
-            if (!html.matches("(?is).*<link[^>]+href\\s*=\\s*['\"][^'\"]*"+APPMOD_DEFAULT.replace(".", "\\.")+"['\"][^>]*>.*")) {
+            if (!html.matches("(?is).*<link[^>]+href\\s*=\\s*['\"][^'\"]*" + APPMOD_DEFAULT.replace(".", "\\.") + "['\"][^>]*>.*")) {
                 String link = "<link rel=\"stylesheet\" href=\"" + cssHref + "\" />";
                 html = html.replaceFirst("(?is)</head>", link + "\n</head>");
                 changed = true;
@@ -176,12 +178,12 @@ public class AppModHelper {
             if (!changed) {
                 return src;
             }
-            
+
             String stagedName = entryFile.endsWith(".xhtml")
                     ? entryFile.substring(0, entryFile.length() - ".xhtml".length()) + ".xhtml"
                     : entryFile + ".tapin";
             Path staged = modDir.resolve(stagedName);
-            
+
             Files.writeString(staged, html, StandardCharsets.UTF_8);
             return staged;
 
@@ -190,7 +192,7 @@ public class AppModHelper {
             return modDir.resolve(entryFile);
         }
     }
-    
+
     private static void copyResourceDir(String resourceDir, Path targetDir) throws IOException {
 
         URL url = AppModHelper.class.getResource("/" + resourceDir);
@@ -204,7 +206,7 @@ public class AppModHelper {
             "index.xhtml",
             "style.css",
             "app.js",
-            "box.png",
+            "icon.png",
             "package.json"
         };
 
@@ -229,8 +231,9 @@ public class AppModHelper {
     }
 
     // Base directory: default ~/appmods; override with -Dtapin.mods.dir=/path
-    private static Path modsBase() {
+    public static Path modsBase() {
         String override = System.getProperty("tapin.mods.dir");
+
         Path base = (override != null && !override.isBlank())
                 ? Paths.get(override)
                 : Paths.get(System.getProperty("user.home"), "appmods");

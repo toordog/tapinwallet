@@ -1,4 +1,5 @@
 {
     "id" : "appviewicon",
-    "name" : "Base Template"
+    "name" : "Base Template",
+    "icon" : "icon.png"
 }

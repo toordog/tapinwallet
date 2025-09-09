@@ -3,6 +3,7 @@ package com.tapinwallet.controllers;
 import com.tapinwallet.data.BaseController;
 import com.tapinwallet.util.AppModHelper;
 import com.tapinwallet.data.ModEntry;
+import java.io.File;
 import java.util.List;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
@@ -33,25 +34,43 @@ public class HomeViewController extends BaseController implements AppShellContro
             Label label = new Label(mod.name());
             label.getStyleClass().add("app-icon-text");
 
+            ImageView iconView = null;
+
             if (mod.id().equals("appviewicon")) {
-                ImageView iconView = new ImageView(new Image(getClass().getResource("/META-INF/img/box.png").toExternalForm()));
-                iconView.getStyleClass().add("app-icon-img");
-                iconView.setFitWidth(32);
-                iconView.setFitHeight(32);
 
-                holder.setOnMousePressed(e -> iconView.pseudoClassStateChanged(javafx.css.PseudoClass.getPseudoClass("pressed"), true));
-                holder.setOnMouseReleased(e -> iconView.pseudoClassStateChanged(javafx.css.PseudoClass.getPseudoClass("pressed"), false));
-                
-                holder.getChildren().addAll(iconView, label);
+                String basePath = AppModHelper.modsBase().toString();
+                String iconPath = basePath + "/" + mod.hash() + "/" + mod.icon();
+                File icon = new File(iconPath);
+                iconView = new ImageView(new Image(icon.toURI().toString()));
+
             } else {
-                Label icon = new Label("APP");
-                icon.getStyleClass().add("app-icon-img");
 
-                holder.setOnMousePressed(e -> icon.pseudoClassStateChanged(javafx.css.PseudoClass.getPseudoClass("pressed"), true));
-                holder.setOnMouseReleased(e -> icon.pseudoClassStateChanged(javafx.css.PseudoClass.getPseudoClass("pressed"), false));
+                try {
+                    String basePath = AppModHelper.modsBase().toString();
+                    String iconPath = basePath + "/" + mod.hash() + "/" + mod.icon();
+                    File icon = new File(iconPath);
 
-                holder.getChildren().addAll(icon, label);
+                    if (!icon.exists()) {
+                        throw new Exception();
+                    }
+                    iconView = new ImageView(new Image(icon.toURI().toString()));
+                } catch (Exception ex) {
+                    // fallback to default icon
+                    iconView = new ImageView(new Image(getClass().getResource("/META-INF/img/problem.png").toExternalForm()));
+                }
+
             }
+
+            iconView.getStyleClass().add("app-icon-img");
+            iconView.setFitWidth(32);
+            iconView.setFitHeight(32);
+
+            final ImageView finalIconView = iconView;
+
+            holder.setOnMousePressed(e -> finalIconView.pseudoClassStateChanged(javafx.css.PseudoClass.getPseudoClass("pressed"), true));
+            holder.setOnMouseReleased(e -> finalIconView.pseudoClassStateChanged(javafx.css.PseudoClass.getPseudoClass("pressed"), false));
+
+            holder.getChildren().addAll(iconView, label);
 
             holder.setOnMouseClicked(e -> {
                 ctx.setSelectedMod(mod);
