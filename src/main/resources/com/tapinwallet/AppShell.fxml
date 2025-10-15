@@ -26,7 +26,7 @@
         </HBox>
    </top>
    <bottom>
-      <HBox fx:id="navBar" prefHeight="63.0" prefWidth="390.0" BorderPane.alignment="CENTER">
+      <HBox fx:id="navBar" visible="false" prefHeight="63.0" prefWidth="390.0" BorderPane.alignment="CENTER">
          <children>
             <Button fx:id="addressBookButton" mnemonicParsing="false" />
             <Button fx:id="proofsButton" mnemonicParsing="false" />

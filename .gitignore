@@ -78,3 +78,5 @@ build/
 *.ear
 hs_err_pid*
 
+libobjectbox-jni-macos.dylib
+wallet-db/

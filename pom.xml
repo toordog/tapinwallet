@@ -17,6 +17,7 @@
         <gluonfx.target>host</gluonfx.target>
         <!-- used by javafx:run to fetch platform natives -->
         <javafx.platform></javafx.platform>
+        <objectboxVersion>5.0.1</objectboxVersion>
     </properties>
 
     <repositories>
@@ -28,7 +29,18 @@
             <id>central</id>
             <url>https://repo1.maven.org/maven2/</url>
         </repository>
+        <repository>
+            <id>objectbox</id>
+            <url>https://maven.objectbox.io</url>
+        </repository>
     </repositories>
+
+    <!--    <pluginRepositories>
+        <pluginRepository>
+            <id>objectbox</id>
+            <url>https://maven.objectbox.io</url>
+        </pluginRepository>
+    </pluginRepositories>-->
 
     <!--    <dependencyManagement>
         <dependencies>
@@ -90,6 +102,37 @@
             <version>2.19.0</version>
         </dependency>
         
+        <!-- Core ObjectBox library -->
+        <dependency>
+            <groupId>io.objectbox</groupId>
+            <artifactId>objectbox-java</artifactId>
+            <version>${objectboxVersion}</version>
+        </dependency>
+
+        <!-- Add native libs for your platforms -->
+        <dependency>
+            <groupId>io.objectbox</groupId>
+            <artifactId>objectbox-macos</artifactId>
+            <version>${objectboxVersion}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.objectbox</groupId>
+            <artifactId>objectbox-linux</artifactId>
+            <version>${objectboxVersion}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.objectbox</groupId>
+            <artifactId>objectbox-windows</artifactId>
+            <version>${objectboxVersion}</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.38</version>
+            <!--<scope>provided</scope>-->
+        </dependency>
+        
         <!-- Core models -->
         <dependency>
             <groupId>org.xrpl</groupId>
@@ -121,6 +164,7 @@
     </dependencies>
 
     <build>
+        
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
@@ -269,6 +313,28 @@
                     <release>${maven.compiler.release}</release>
                 </configuration>
             </plugin>
+            
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.11.0</version>
+                <configuration>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>io.objectbox</groupId>
+                            <artifactId>objectbox-processor</artifactId>
+                            <version>${objectboxVersion}</version>
+                        </path>
+                    </annotationProcessorPaths>
+                    <annotationProcessors>
+                        <annotationProcessor>io.objectbox.processor.ObjectBoxProcessorShim</annotationProcessor>
+                    </annotationProcessors>
+                    <compilerArgs>
+                        <arg>-Aobjectbox.modelPath=${project.basedir}/objectbox-models/default.json</arg>
+                    </compilerArgs>
+                </configuration>
+            </plugin>
+            
         </plugins>
     </build>
 
@@ -299,6 +365,18 @@
             <id>desktop</id>
             <properties>
                 <gluonfx.target>host</gluonfx.target>
+            </properties>
+        </profile>
+        <profile>
+            <id>macos-x64</id>
+            <activation>
+                <os>
+                    <name>Mac OS X</name>
+                    <arch>x86_64</arch>
+                </os>
+            </activation>
+            <properties>
+                <javafx.platform>mac</javafx.platform>
             </properties>
         </profile>
     </profiles>

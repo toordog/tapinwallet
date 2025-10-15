@@ -4,6 +4,7 @@
  */
 package com.tapinwallet.controllers;
 
+import com.tapinwallet.data.BaseController;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
@@ -12,11 +13,22 @@ import javafx.fxml.Initializable;
  *
  * @author michael
  */
-public class HomeViewController implements Initializable {
+public class HomeViewController extends BaseController implements Initializable,AppShellController.HasHost {
 
+    AppShellController host;
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
     }
     
+    @Override
+    public void onAppContextAvailable() {
+        System.out.println("CTX: "+ctx);
+    }
+
+    @Override
+    public void setHost(AppShellController host) {
+        this.host = host;
+    }
 }

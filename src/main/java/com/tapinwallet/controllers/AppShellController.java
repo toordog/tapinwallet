@@ -1,6 +1,5 @@
 package com.tapinwallet.controllers;
 
-import com.tapinwallet.ConfigManager;
 import com.tapinwallet.WalletApp;
 import com.tapinwallet.data.AppContext;
 import com.tapinwallet.data.BaseController;
@@ -10,7 +9,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.StackPane;
 import javafx.beans.value.ChangeListener;
 import javafx.scene.Node;
 
@@ -30,17 +28,18 @@ public class AppShellController implements Initializable {
     HBox navBar;
     
     ChangeListener<Node> centerListener;
+    boolean showTools = false;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
         centerListener = (obs, oldNode, newNode) -> {
-            if (ConfigManager.isWalletConfigured()) {
+            
+            if(showTools) {
                 navBar.setVisible(true);
                 rootPane.centerProperty().removeListener(centerListener);
-            } else {
-                navBar.setVisible(false);
             }
+
         };
         rootPane.centerProperty().addListener(centerListener);
 
@@ -66,12 +65,22 @@ public class AppShellController implements Initializable {
         swapBody("SettingsView.fxml");
     }
 
-    public void swapBody(String fxmlName) {
-
+    public void goToSetup() {
+         swapBody("SetupView.fxml");
+    }
+    
+    private void swapBody(String fxmlName) {
+        
+        if(!fxmlName.equals("SetupView.fxml")) {
+            showTools = true;
+        }
+        
         try {
             FXMLLoader loader = new FXMLLoader(WalletApp.class.getResource(fxmlName));
             Node view = loader.load();
 
+            // XXX: here we need to padd data to each controller, maybe by scope?
+            
             // Give the child controller access to the host
             Object controller = loader.getController();
             if (controller instanceof HasHost) {
@@ -82,13 +91,15 @@ public class AppShellController implements Initializable {
                 }
 
             }
-
+            
             rootPane.setCenter(view);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    // WE will bind the new methods above to the fxml click events where needed
+    // these will go way
     @FXML
     private void handleBackToAppTray() {
         goToAppTray();
