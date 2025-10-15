@@ -1,0 +1,82 @@
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: #f4f6f9;
+  margin: 0;
+  padding: 0;
+  color: #222;
+}
+
+.container {
+  padding: 1em;
+  max-width: 500px;
+  margin: 2em auto;
+}
+
+.card {
+  background: white;
+  padding: 1.5em;
+  margin: 1.5em 0;
+  border-radius: 14px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+.balance-card {
+  text-align: center;
+}
+
+.label {
+  font-size: 0.9em;
+  color: #777;
+}
+
+.address {
+  font-size: 0.9em;
+  word-break: break-all;
+  color: #444;
+}
+
+.balance {
+  font-size: 2em;
+  font-weight: bold;
+  color: #2e7d32;
+  margin: 0.5em 0;
+}
+
+h2 {
+  margin-top: 0;
+  font-size: 1.2em;
+  color: #0b253a;
+}
+
+input, button {
+  padding: 0.8em;
+  margin: 0.5em 0;
+  width: 100%;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 1em;
+}
+
+button {
+  background: #007bff;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+button:hover:not(:disabled) {
+  background: #0056b3;
+}
+
+button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.status {
+  margin-top: 0.5em;
+  font-size: 0.9em;
+  color: #555;
+}
+

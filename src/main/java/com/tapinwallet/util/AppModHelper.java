@@ -3,7 +3,7 @@ package com.tapinwallet.util;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tapinwallet.data.ModEntry;
-import com.tapinwallet.controllers.AppViewController;
+import com.tapinwallet.controllers.AppModViewController;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -21,6 +21,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.jar.JarFile;
+import javafx.scene.image.Image;
 
 /**
  *
@@ -30,6 +31,15 @@ public class AppModHelper {
 
     private static String APPMOD_DEFAULT = "appmod-default.css";
 
+    public static Image getImage(ModEntry mod) {
+        Path base = modsBase().resolve(mod.hash()+"/"+mod.icon());
+        
+        if(!base.toFile().exists())
+        return null;
+        
+        return new Image(base.toUri().toString());
+    }
+    
     // -------- core --------
     public static List<ModEntry> listAvailableModsWithEntries() {
         List<ModEntry> mods = new ArrayList<>();
@@ -126,7 +136,7 @@ public class AppModHelper {
         if (Files.exists(dst)) {
             return;
         }
-        try (InputStream in = AppViewController.class.getResourceAsStream("/defaults/" + APPMOD_DEFAULT)) {
+        try (InputStream in = AppModViewController.class.getResourceAsStream("/defaults/" + APPMOD_DEFAULT)) {
             if (in != null) {
                 Files.createDirectories(baseDir);
                 Files.copy(in, dst, StandardCopyOption.REPLACE_EXISTING);

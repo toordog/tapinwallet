@@ -28,5 +28,9 @@ public class JSBridge {
             cb.call("call", new Object[]{result});
         }
     }
+    
+    public void log(String logLine) {
+        System.out.println(logLine);
+    }
 
 }

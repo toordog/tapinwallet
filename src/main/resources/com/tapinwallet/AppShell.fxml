@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -9,21 +10,30 @@
 
 <BorderPane fx:id="rootPane" prefHeight="776.0" prefWidth="393.0" stylesheets="@tapin.css" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.tapinwallet.controllers.AppShellController">
 
-    <!-- Header -->
-    <top>
-        <HBox prefHeight="0.0" prefWidth="133.0" spacing="10" styleClass="app-header">
+    <!-- Body -->
+    <center>
+        <StackPane fx:id="bodyContainer" styleClass="app-body" />
+    </center>
+   <top>
+        <HBox prefHeight="0.0" prefWidth="133.0" spacing="10" styleClass="app-header" BorderPane.alignment="CENTER">
          <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
             <image>
-               <Image url="@../../META-INF/img/wallet.png" />
+               <Image url="@img/wallet.png" />
             </image>
          </ImageView>
             <!-- Logo/Icon + Tapin Text -->
             <Label styleClass="app-logo" text="Tapin" />
         </HBox>
-    </top>
-
-    <!-- Body -->
-    <center>
-        <StackPane fx:id="bodyContainer" prefHeight="3995.0" prefWidth="133.0" styleClass="app-body" />
-    </center>
+   </top>
+   <bottom>
+      <HBox fx:id="navBar" prefHeight="63.0" prefWidth="390.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="addressBookButton" mnemonicParsing="false" />
+            <Button fx:id="proofsButton" mnemonicParsing="false" />
+            <Button fx:id="homeButton" contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" onAction="#handleBackToHome" styleClass="homeButton" />
+            <Button fx:id="appButton" mnemonicParsing="false" onAction="#handleBackToAppTray" />
+            <Button fx:id="settingsButton" mnemonicParsing="false" onAction="#handleBackToSettings" />
+         </children>
+      </HBox>
+   </bottom>
 </BorderPane>

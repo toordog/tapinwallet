@@ -1,36 +1,63 @@
 package com.tapinwallet.controllers;
 
+import com.tapinwallet.WalletApp;
 import com.tapinwallet.data.BaseController;
 import com.tapinwallet.util.AppModHelper;
 import com.tapinwallet.util.JSBridge;
+import com.tapinwallet.util.XRPLBridge;
+import java.io.IOException;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.web.WebView;
 import javafx.concurrent.Worker;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
 import javafx.scene.web.WebEngine;
 import netscape.javascript.JSObject;
 
-public class AppViewController extends BaseController implements AppShellController.HasHost {
+public class AppModViewController extends BaseController implements AppShellController.HasHost {
+
+    private final JSBridge jsBridge = new JSBridge();
+    private final XRPLBridge xrplBridge = new XRPLBridge();
     
-    private final JSBridge bridge = new JSBridge();
     private AppShellController host;
 
     @FXML
     WebView webView;
 
     @FXML
-    private void initialize() {
+    Label headerTitle;
+
+    @FXML
+    ImageView headerIcon, burgerButton;
+
+    @FXML
+    private void initialize() throws IOException {
+
+        burgerButton.setOnMouseClicked(e -> {
+            System.out.println(e);
+        });
         
         WebEngine engine = webView.getEngine();
 
         engine.getLoadWorker().stateProperty().addListener((obs, old, state) -> {
             if (state == Worker.State.SUCCEEDED) {
                 JSObject window = (JSObject) engine.executeScript("window");
-                window.setMember("tapin", bridge);
+//                window.setMember("tapin", jsBridge);
+                window.setMember("tapin", xrplBridge);
             }
         });
 
         Platform.runLater(() -> {
+
+            headerTitle.setText(ctx.getSelectedMod().name());
+
+            Image icon = AppModHelper.getImage(ctx.getSelectedMod());
+            headerIcon.setImage(icon);
+
             engine.setJavaScriptEnabled(true);
             String url = AppModHelper.loadModFromDisk(ctx.getSelectedMod().hash(), "index.xhtml");
             engine.load(url);
@@ -40,13 +67,6 @@ public class AppViewController extends BaseController implements AppShellControl
     @Override
     public void setHost(AppShellController host) {
         this.host = host;
-    }
-
-    @FXML
-    private void handleBackHome() {
-        if (host != null) {
-            host.goHome();
-        }
     }
 
 }

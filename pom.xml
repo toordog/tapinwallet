@@ -19,6 +19,29 @@
         <javafx.platform></javafx.platform>
     </properties>
 
+    <repositories>
+        <repository>
+            <id>gluon-releases</id>
+            <url>https://nexus.gluonhq.com/nexus/content/repositories/releases/</url>
+        </repository>
+        <repository>
+            <id>central</id>
+            <url>https://repo1.maven.org/maven2/</url>
+        </repository>
+    </repositories>
+
+    <!--    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.xrpl</groupId>
+                <artifactId>xrpl4j-bom</artifactId>
+                <version>5.0.0</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>-->
+
     <dependencies>
         <!-- JavaFX modules -->
         <dependency>
@@ -42,15 +65,59 @@
             <version>4.0.23</version>
         </dependency>
         <dependency>
+            <groupId>com.gluonhq</groupId>
+            <artifactId>charm-glisten</artifactId>
+            <version>6.2.3</version> <!-- check latest version -->
+        </dependency>
+        <dependency>
+            <groupId>com.gluonhq.attach</groupId>
+            <artifactId>display</artifactId>
+            <version>4.0.23</version>
+        </dependency>
+        <dependency> 
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.20.0</version>
+            <version>2.19.0</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-annotations</artifactId>
-            <version>2.17.2</version>
+            <version>2.19.0</version>
         </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>2.19.0</version>
+        </dependency>
+        
+        <!-- Core models -->
+        <dependency>
+            <groupId>org.xrpl</groupId>
+            <artifactId>xrpl4j-core</artifactId>
+            <version>5.0.0</version>
+        </dependency>
+
+        <!-- JSON-RPC client -->
+        <dependency>
+            <groupId>org.xrpl</groupId>
+            <artifactId>xrpl4j-client</artifactId>
+            <version>5.0.0</version>
+        </dependency>
+
+        <!--Wallet + keypair utilities--> 
+        <!--        <dependency>
+            <groupId>org.xrpl</groupId>
+            <artifactId>xrpl4j-wallet</artifactId>
+            <version>5.0.0</version>
+        </dependency>-->
+
+        <!--BouncyCastle-based signing--> 
+        <!--        <dependency>
+            <groupId>org.xrpl</groupId>
+            <artifactId>xrpl4j-crypto-bc</artifactId>
+            <version>5.0.0</version>
+        </dependency>-->
+        
     </dependencies>
 
     <build>
@@ -100,16 +167,83 @@
                         <list>appmods/.*</list>
                         <list>defaults/.*</list>
                         <list>fonts/*.ttf</list>
-                        <!--<list>icons/.*.(png|jpg|gif)</list>-->
+                        <list>META-INF/native-image/.*</list>
+                        <list>META-INF/services/com.fasterxml.jackson.databind.Module</list>
+                        <!-- XRPL4J binary codec definitions -->
+                        <list>META-INF/services/.*</list>
+                        <!--<list>definitions.json</list>-->
                     </resourcesList>
-                    
+
                     <reflectionList>
+                        <!--Your controllers--> 
+                        <list>com.tapinwallet.controllers.AppModViewController</list>
                         <list>com.tapinwallet.controllers.AppShellController</list>
+                        <list>com.tapinwallet.controllers.AppTrayViewController</list>
                         <list>com.tapinwallet.controllers.HomeViewController</list>
-                        <list>com.tapinwallet.controllers.AppViewController</list>
+                        <list>com.tapinwallet.controllers.SettingsViewController</list>
                         <list>com.tapinwallet.controllers.SetupViewController</list>
+                        <list>com.tapinwallet.controllers.ActionPopupController</list>
+
+                        <!--Utilities--> 
                         <list>com.tapinwallet.controllers.ConfigManager</list>
+                        <list>com.tapinwallet.util.JSBridge</list>
+                        <list>com.tapinwallet.util.XRPLBridge</list>
+                        <list>javafx.scene.layout.TilePane</list>
+                        <list>javafx.scene.web.WebView</list>
+                        <list>javafx.scene.web.WebEngine</list>
+                        <list>netscape.javascript.JSObject</list>
+
+                        <!--XRPL4J client and codec--> 
+                        <list>org.xrpl.xrpl4j.client.JsonRpcClient</list>
+                        <list>org.xrpl.xrpl4j.client.XrplClient</list>
+                        <list>org.xrpl.xrpl4j.codec.binary.XrplBinaryCodec</list>
+
+                        <!--XRPL definitions--> 
+                        <list>org.xrpl.xrpl4j.codec.binary.definitions.ImmutableDefinitions</list>
+                        <list>org.xrpl.xrpl4j.codec.binary.definitions.ImmutableDefinitions$Json</list>
+                        <list>org.xrpl.xrpl4j.codec.binary.definitions.ImmutableFieldInfo</list>
+                        <list>org.xrpl.xrpl4j.codec.binary.definitions.ImmutableTypeInfo</list>
+                        <list>org.xrpl.xrpl4j.model.transactions.Address</list>
+                        <list>org.xrpl.xrpl4j.model.jackson.modules.Xrpl4jModule</list>
+                        <list>org.xrpl.xrpl4j.model.jackson.modules.AddressSerializer</list>
+                        <list>org.xrpl.xrpl4j.model.jackson.modules.AddressDeserializer</list>
+                        <list>org.xrpl.xrpl4j.model.client.accounts.AccountInfoResult</list>
+                        <list>org.xrpl.xrpl4j.model.client.common.LedgerSpecifier</list>
+                        <list>org.xrpl.xrpl4j.model.client.common.ImmutableLedgerSpecifier</list>
+                        <list>org.xrpl.xrpl4j.model.client.accounts.AccountInfoRequestParams</list>
+                        <list>org.xrpl.xrpl4j.model.client.accounts.ImmutableAccountInfoRequestParams</list>
+                        <list>org.xrpl.xrpl4j.model.client.accounts.AccountInfoRequestParams</list>
+                        <list>org.xrpl.xrpl4j.model.client.accounts.ImmutableAccountInfoRequestParams</list>
+                        <list>org.xrpl.xrpl4j.model.client.common.LedgerSpecifier</list>
+                        <list>org.xrpl.xrpl4j.model.client.common.ImmutableLedgerSpecifier</list>
+                        <list>org.xrpl.xrpl4j.model.transactions.Address</list>
+                        <list>org.xrpl.xrpl4j.model.jackson.modules.LedgerSpecifierSerializer</list>
+                        <list>org.xrpl.xrpl4j.model.jackson.modules.LedgerSpecifierDeserializer</list>
+
+                        <!--Jackson / Guava datatypes used by xrpl4j--> 
+                        <list>com.fasterxml.jackson.databind.ObjectMapper</list>
+                        <list>com.fasterxml.jackson.databind.JsonNode</list>
+                        <list>com.fasterxml.jackson.databind.node.ObjectNode</list>
+                        <list>com.fasterxml.jackson.databind.node.ArrayNode</list>
+                        <list>com.fasterxml.jackson.databind.node.TextNode</list>
+                        <list>com.fasterxml.jackson.databind.node.NullNode</list>
+                        <list>com.fasterxml.jackson.databind.node.BooleanNode</list>
+                        <list>com.fasterxml.jackson.databind.node.IntNode</list>
+                        <list>com.fasterxml.jackson.databind.node.LongNode</list>
+                        <list>com.fasterxml.jackson.databind.node.DoubleNode</list>
+                        <list>com.fasterxml.jackson.databind.node.DecimalNode</list>
+                        <list>com.fasterxml.jackson.databind.node.BinaryNode</list>
+                        <list>com.fasterxml.jackson.databind.node.POJONode</list>
+                        <list>com.fasterxml.jackson.databind.node.JsonNodeType</list>
                     </reflectionList>
+                    
+                    <proxyList>
+                        <list>org.xrpl.xrpl4j.client.JsonRpcClient</list>
+                        <list>feign.RequestLine</list>
+                        <list>feign.Headers</list>
+                        <list>feign.Param</list>
+                        <list>feign.Target</list>
+                    </proxyList>
                     
                     <!-- Make sure all JavaFX modules you use are listed -->
                     <javafx>

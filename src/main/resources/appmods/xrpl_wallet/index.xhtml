@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Tapin Wallet</title>
+  <link rel="stylesheet" type="text/css" href="style.css" />
+  <script src="app.js" defer="defer"></script>
+</head>
+<body>
+  <div class="container">
+
+    <!-- Connect / Network -->
+    <div class="card">
+      <h2>Network</h2>
+      <button id="connectBtn">Connect</button>
+      <div id="networkStatus" class="status">Not connected</div>
+    </div>
+
+    <!-- Wallet Info -->
+    <div class="card balance-card">
+      <h2>Wallet</h2>
+      <div class="label">Address</div>
+      <div id="address" class="address">-</div>
+
+      <div class="label">Balance</div>
+      <div id="balance" class="balance">0 XRP</div>
+      <button id="refreshBtn">Refresh Balance</button>
+    </div>
+
+    <!-- Send -->
+    <div class="card">
+      <h2>Send XRP</h2>
+      <input id="toAddress" type="text" placeholder="Recipient Address" />
+      <input id="amount" type="number" step="0.000001" placeholder="Amount (XRP)" />
+      <button id="sendBtn">Send</button>
+      <div id="sendStatus" class="status"></div>
+    </div>
+
+  </div>
+</body>
+</html>
+

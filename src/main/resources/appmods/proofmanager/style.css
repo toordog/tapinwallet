@@ -18,7 +18,7 @@ html,body{margin:0;padding:0;background:linear-gradient(180deg,var(--bg1),var(--
   background:linear-gradient(180deg,#fff,#fafcff);box-shadow:0 1px 0 rgba(0,0,0,.03)}
 .brand{display:flex;align-items:center;gap:10px}
 .logo{font-size:22px} /* slightly larger */
-.logo-icon{width:20px;height:20px;vertical-align:-3px;margin-right:6px}
+.logo-icon{width:32px;height:32px;vertical-align:-3px;margin-right:6px}
 .title{font-weight:750;font-size:18px;letter-spacing:.2px} /* bumped */
 
 .actions{display:flex;gap:10px}

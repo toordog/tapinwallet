@@ -13,7 +13,7 @@ public class WalletApp extends Application {
     public void start(Stage stage) throws IOException {
 
         FXMLLoader loader = new FXMLLoader(WalletApp.class.getResource("AppShell.fxml"));
-        Scene scene = new Scene(loader.load(), 400, 800);
+        Scene scene = new Scene(loader.load(), 425, 900);
 
         AppShellController controller = loader.getController();
         if (ConfigManager.isWalletConfigured()) {
