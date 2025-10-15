@@ -20,8 +20,11 @@
         localStorage.setItem(KEY, JSON.stringify(arr));
     }
 
+    var i = 1;
+
     function runDemo() {
-        window.tapin.encrypt("Michael", function (data,i) {
+        // window.tapin.encrypt("Michael", function (data,i) {
+            var data = Date.now();
             var clicks = readClicks();
             clicks.unshift({at: new Date().toISOString()});
             writeClicks(clicks);
@@ -29,10 +32,13 @@
             var out = $("output");
             out.textContent = "Demo ran " + clicks.length + " time(s). Last: " + clicks[0].at + " : " + data + " : "+i;
             out.className = "output pulse";
+
             setTimeout(function () {
                 out.className = "output";
+                i++;
             }, 500);
-        });
+
+        // });
     }
 
     function setYear() {
