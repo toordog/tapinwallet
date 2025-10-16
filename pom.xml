@@ -147,12 +147,6 @@
             <version>5.0.0</version>
         </dependency>
 
-        <dependency>
-            <groupId>io.objectbox</groupId>
-            <artifactId>objectbox-android</artifactId>
-            <version>${objectboxVersion}</version>
-        </dependency>
-
         <!--Wallet + keypair utilities--> 
         <!--        <dependency>
             <groupId>org.xrpl</groupId>
@@ -219,8 +213,9 @@
                         <list>fonts/*.ttf</list>
                         <list>META-INF/native-image/.*</list>
                         <list>META-INF/services/com.fasterxml.jackson.databind.Module</list>
+                        <!-- XRPL4J binary codec definitions -->
                         <list>META-INF/services/.*</list>
-                        <list>objectbox-jni</list>
+                        <!--<list>definitions.json</list>-->
                     </resourcesList>
 
                     <reflectionList>
