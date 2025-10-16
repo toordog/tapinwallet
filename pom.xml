@@ -195,9 +195,6 @@
                     <appName>TapinWallet</appName>
                     <target>${gluonfx.target}</target>
                 </configuration>
-                <jniList>
-                    <list>objectbox-jni</list>
-                </jniList>
             </plugin>
 
             <!-- Native/mobile builds: e.g. mvn -Pandroid gluonfx:build gluonfx:package -->
@@ -222,9 +219,8 @@
                         <list>fonts/*.ttf</list>
                         <list>META-INF/native-image/.*</list>
                         <list>META-INF/services/com.fasterxml.jackson.databind.Module</list>
-                        <!-- XRPL4J binary codec definitions -->
                         <list>META-INF/services/.*</list>
-                        <!--<list>definitions.json</list>-->
+                        <list>objectbox-jni</list>
                     </resourcesList>
 
                     <reflectionList>
