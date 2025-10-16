@@ -182,7 +182,7 @@
                 <directory>${project.basedir}/src/main/resources/native</directory>
                 <targetPath>META-INF/native</targetPath>
                 <includes>
-                    <include>libobjectbox-jni*.so</include>
+                    <include>libobjectbox-jni-linux-arm64.so</include>
                 </includes>
             </resource>
         </resources>
@@ -337,6 +337,32 @@
                 <configuration>
                     <release>${maven.compiler.release}</release>
                 </configuration>
+            </plugin>
+            
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.3.1</version>
+                <executions>
+                    <execution>
+                        <id>copy-native-libs</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.outputDirectory}/native</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${project.basedir}/objectbox-android/jni/arm64-v8a</directory>
+                                    <includes>
+                                        <include>libobjectbox-jni-linux-arm64.so</include>
+                                    </includes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
             
             <plugin>
