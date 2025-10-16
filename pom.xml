@@ -178,6 +178,13 @@
                     <include>**/*</include>
                 </includes>
             </resource>
+            <resource>
+                <directory>${project.basedir}/src/main/resources/native</directory>
+                <targetPath>META-INF/native</targetPath>
+                <includes>
+                    <include>libobjectbox-jni*.so</include>
+                </includes>
+            </resource>
         </resources>
         <plugins>
             <!-- JVM dev run: mvn -q -DskipTests javafx:run -->
