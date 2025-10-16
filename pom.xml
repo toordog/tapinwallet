@@ -224,6 +224,10 @@
                         </resourcesList>
                     </gluonfxConfiguration>
                     
+                    <attachList>
+                        <list>src/main/resources/META-INF/substrate/libobjectbox-jni-linux-arm64.so</list>
+                    </attachList>
+                    
                     <!-- ensure FXML/CSS are bundled in native builds -->
                     <resourcesList>
                         <list>com/tapinwallet/.*</list>
