@@ -109,7 +109,7 @@
             <version>${objectboxVersion}</version>
         </dependency>
 
-<!--        <dependency>
+        <!--        <dependency>
             <groupId>io.objectbox</groupId>
             <artifactId>objectbox-android</artifactId>
             <version>${objectboxVersion}</version>
@@ -217,6 +217,7 @@
                         <list>appmods/.*</list>
                         <list>defaults/.*</list>
                         <list>fonts/*.ttf</list>
+                        <list>src/main/resources</list>
                         <list>META-INF/native-image/.*</list>
                         <list>META-INF/services/com.fasterxml.jackson.databind.Module</list>
                         <!-- XRPL4J binary codec definitions -->
@@ -225,7 +226,7 @@
                     </resourcesList>
 
                     <jniList>
-                        <list>libobjectbox.so</list>
+                        <list>libobjectbox-jni-linux-arm64.so</list>
                     </jniList>
 
                     <reflectionList>
