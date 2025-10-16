@@ -217,7 +217,7 @@
                         <list>appmods/.*</list>
                         <list>defaults/.*</list>
                         <list>fonts/*.ttf</list>
-                        <list>src/main/resources</list>
+                        <!--<list>src/main/resources</list>-->
                         <list>src/main/resources/native/libobjectbox-jni-linux-arm64.so</list>
                         <list>META-INF/native-image/.*</list>
                         <list>META-INF/services/com.fasterxml.jackson.databind.Module</list>
@@ -227,8 +227,7 @@
                     </resourcesList>
 
                     <jniList>
-                        <list>native/libobjectbox-jni.so</list>
-                        <list>native/libobjectbox-jni-linux-arm64.so</list>
+                        <list>libobjectbox-jni-linux-arm64.so</list>
                     </jniList>
 
                     <reflectionList>
@@ -292,7 +291,13 @@
                         <list>com.fasterxml.jackson.databind.node.BinaryNode</list>
                         <list>com.fasterxml.jackson.databind.node.POJONode</list>
                         <list>com.fasterxml.jackson.databind.node.JsonNodeType</list>
+                        
+                        <list>io.objectbox.internal.NativeLibraryLoader</list>
                     </reflectionList>
+                    
+                    <jniConfigList>
+                        <jniConfigList>io.objectbox.internal.NativeLibraryLoader</jniConfigList>
+                    </jniConfigList>
                     
                     <proxyList>
                         <list>org.xrpl.xrpl4j.client.JsonRpcClient</list>
