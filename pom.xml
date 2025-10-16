@@ -226,6 +226,7 @@
                     </resourcesList>
 
                     <jniList>
+                        <list>libobjectbox-jni.so</list>
                         <list>libobjectbox-jni-linux-arm64.so</list>
                     </jniList>
 
