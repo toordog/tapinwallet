@@ -225,7 +225,8 @@
                         <list>defaults/.*</list>
                         <list>fonts/*.ttf</list>
                         <!--<list>src/main/resources</list>-->
-                        <list>src/main/resources/native/libobjectbox-jni-linux-arm64.so</list>
+                        <list>META-INF/native/libobjectbox-jni-linux-arm64.so</list>
+                        <list>native/libobjectbox-jni-linux-arm64.so</list>
                         <list>META-INF/native-image/.*</list>
                         <list>META-INF/services/com.fasterxml.jackson.databind.Module</list>
                         <!-- XRPL4J binary codec definitions -->
