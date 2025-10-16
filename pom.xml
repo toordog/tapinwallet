@@ -109,6 +109,12 @@
             <version>${objectboxVersion}</version>
         </dependency>
 
+        <dependency>
+            <groupId>io.objectbox</groupId>
+            <artifactId>objectbox-android</artifactId>
+            <version>${objectboxVersion}</version>
+        </dependency>
+
         <!-- Add native libs for your platforms -->
         <dependency>
             <groupId>io.objectbox</groupId>
@@ -217,6 +223,10 @@
                         <list>META-INF/services/.*</list>
                         <!--<list>definitions.json</list>-->
                     </resourcesList>
+
+                    <jniList>
+                        <list>libobjectbox.so</list>
+                    </jniList>
 
                     <reflectionList>
                         <!--Your controllers--> 
