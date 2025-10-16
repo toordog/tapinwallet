@@ -147,6 +147,12 @@
             <version>5.0.0</version>
         </dependency>
 
+        <dependency>
+            <groupId>io.objectbox</groupId>
+            <artifactId>objectbox-android</artifactId>
+            <version>${objectboxVersion}</version>
+        </dependency>
+
         <!--Wallet + keypair utilities--> 
         <!--        <dependency>
             <groupId>org.xrpl</groupId>
@@ -189,6 +195,9 @@
                     <appName>TapinWallet</appName>
                     <target>${gluonfx.target}</target>
                 </configuration>
+                <jniList>
+                    <list>objectbox-jni</list>
+                </jniList>
             </plugin>
 
             <!-- Native/mobile builds: e.g. mvn -Pandroid gluonfx:build gluonfx:package -->
