@@ -12,6 +12,11 @@ import javafx.stage.Stage;
 
 public class WalletApp extends Application {
 
+    static {
+        System.setProperty("objectbox.disableUnpackLib", "true");
+        System.loadLibrary("objectbox-jni-linux-arm64");
+    }
+
     @Override
     public void start(Stage stage) throws IOException {
 
