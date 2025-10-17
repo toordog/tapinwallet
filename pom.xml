@@ -354,7 +354,7 @@
                             <target>
                                 <mkdir dir="${project.build.directory}/gluonfx/aarch64-android/gvm/android_project/app/src/main/jniLibs/arm64-v8a" />
                                 <copy file="${project.basedir}/src/main/resources/native/libobjectbox-jni-linux-arm64.so"
-                                      tofile="${project.build.directory}/gluonfx/aarch64-android/gvm/android_project/app/src/main/jniLibs/arm64-v8a/libobjectbox-jni-linux-arm64.so"
+                                      tofile="${project.build.directory}/gluonfx/aarch64-android/gvm/android_project/app/src/main/jniLibs/arm64-v8a/libobjectbox-jni.so"
                                       overwrite="true" />
                                 <echo message="Copied libobjectbox-jni.so into Android jniLibs/arm64-v8a after GluonFX build" />
                             </target>
