@@ -219,9 +219,9 @@
                     </args>
                     
                     <gluonfxConfiguration>
-                        <resourcesList>
+                        <jniList>
                             <list>native/libobjectbox-jni-linux-arm64.so</list>
-                        </resourcesList>
+                        </jniList>
                     </gluonfxConfiguration>
                     
                     <attachList>
@@ -243,10 +243,6 @@
                         <list>META-INF/services/.*</list>
                         <!--<list>definitions.json</list>-->
                     </resourcesList>
-
-                    <jniList>
-                        <list>native/libobjectbox-jni-linux-arm64.so</list>
-                    </jniList>
 
                     <reflectionList>
                         <!--Your controllers--> 
