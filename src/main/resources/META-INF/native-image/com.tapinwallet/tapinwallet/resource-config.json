@@ -1,9 +1,16 @@
 {
-  "resources": {
-    "includes": [
-      {"pattern": ".*xrpl4j.*/definitions.json$" },
-      {"pattern": "native/.*\\.so$"}
-    ]
-  }
+    "resources": {
+        "includes": [
+            {
+                "pattern": ".*xrpl4j.*/definitions.json$"
+            },
+            {
+                "pattern": "native/.*\\.so$"
+            }
+        ],
+        "jniLibs": [
+            "lib/arm64-v8a/libobjectbox-jni.so"
+        ]
+    }
 }
 
