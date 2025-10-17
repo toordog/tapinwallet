@@ -223,12 +223,12 @@
                         <resourcesList>
                             <resource>src/main/resources/META-INF/substrate/lib/arm64-v8a/libobjectbox-jni-linux-arm64.so</resource>
                         </resourcesList>
-                        <jniList>
+                        <!--                        <jniList>
                             <jni>
                                 <name>libobjectbox-jni.so</name>
                                 <path>${project.basedir}/src/main/resources/META-INF/substrate/lib/arm64-v8a/libobjectbox-jni.so</path>
                             </jni>
-                        </jniList>
+                        </jniList>-->
                     </gluonfxConfiguration>
                     
                     <attachList>
@@ -351,15 +351,16 @@
                 <version>3.1.0</version>
                 <executions>
                     <execution>
-                        <id>copy-objectbox-so-after-gluonfx-build</id>
-                        <phase>package</phase>
+                        <id>copy-objectbox-so</id>
+                        <phase>generate-resources</phase>
                         <configuration>
                             <target>
-                                <mkdir dir="${project.build.directory}/gluonfx/aarch64-android/gvm/android_project/app/src/main/jniLibs/arm64-v8a" />
-                                <copy file="${project.basedir}/src/main/resources/native/libobjectbox-jni-linux-arm64.so"
-                                      tofile="${project.build.directory}/gluonfx/aarch64-android/gvm/android_project/app/src/main/jniLibs/arm64-v8a/libobjectbox-jni.so"
+                                <!-- Make sure folder exists -->
+                                <mkdir dir="target/gluonfx/aarch64-android/gvm/android_project/app/src/main/jniLibs/arm64-v8a" />
+                                <!-- Copy our JNI lib into that structure -->
+                                <copy file="src/main/resources/META-INF/substrate/lib/arm64-v8a/libobjectbox-jni.so"
+                                      todir="target/gluonfx/aarch64-android/gvm/android_project/app/src/main/jniLibs/arm64-v8a"
                                       overwrite="true" />
-                                <echo message="Copied libobjectbox-jni.so into Android jniLibs/arm64-v8a after GluonFX build" />
                             </target>
                         </configuration>
                         <goals>
@@ -368,7 +369,6 @@
                     </execution>
                 </executions>
             </plugin>
-
 
 
             <plugin>
