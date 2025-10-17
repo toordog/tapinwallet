@@ -224,7 +224,10 @@
                             <resource>src/main/resources/META-INF/substrate/lib/arm64-v8a/libobjectbox-jni-linux-arm64.so</resource>
                         </resourcesList>
                         <jniList>
-                            <jni>objectbox-jni-linux-arm64</jni>
+                            <jni>
+                                <name>libobjectbox-jni.so</name>
+                                <path>${project.basedir}/src/main/resources/META-INF/substrate/lib/arm64-v8a/libobjectbox-jni.so</path>
+                            </jni>
                         </jniList>
                     </gluonfxConfiguration>
                     
