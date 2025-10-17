@@ -180,7 +180,7 @@
             </resource>
             <resource>
                 <directory>${project.basedir}/src/main/resources/native</directory>
-                <targetPath>META-INF/native</targetPath>
+                <!--<targetPath>META-INF/native</targetPath>-->
                 <includes>
                     <include>libobjectbox-jni-linux-arm64.so</include>
                 </includes>
@@ -220,12 +220,12 @@
                     
                     <gluonfxConfiguration>
                         <resourcesList>
-                            <list>META-INF/substrate/libobjectbox-jni-linux-arm64.so</list>
+                            <list>native/libobjectbox-jni-linux-arm64.so</list>
                         </resourcesList>
                     </gluonfxConfiguration>
                     
                     <attachList>
-                        <list>src/main/resources/META-INF/substrate/libobjectbox-jni-linux-arm64.so</list>
+                        <list>src/main/resources/native/libobjectbox-jni-linux-arm64.so</list>
                     </attachList>
                     
                     <!-- ensure FXML/CSS are bundled in native builds -->
@@ -234,8 +234,8 @@
                         <list>appmods/.*</list>
                         <list>defaults/.*</list>
                         <list>fonts/*.ttf</list>
-                        <!--<list>src/main/resources</list>-->
-                        <list>META-INF/native/libobjectbox-jni-linux-arm64.so</list>
+                        <list>src/main/resources</list>
+                        <!--<list>META-INF/native/libobjectbox-jni-linux-arm64.so</list>-->
                         <list>native/libobjectbox-jni-linux-arm64.so</list>
                         <list>META-INF/native-image/.*</list>
                         <list>META-INF/services/com.fasterxml.jackson.databind.Module</list>
@@ -245,7 +245,7 @@
                     </resourcesList>
 
                     <jniList>
-                        <list>libobjectbox-jni-linux-arm64.so</list>
+                        <list>native/libobjectbox-jni-linux-arm64.so</list>
                     </jniList>
 
                     <reflectionList>

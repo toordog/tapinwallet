@@ -2,8 +2,7 @@
   "resources": {
     "includes": [
       {"pattern": ".*xrpl4j.*/definitions.json$" },
-      {"pattern": "native/.*\\.so$"},
-      {"pattern": "META-INF/native/.*\\.so$"}
+      {"pattern": "native/.*\\.so$"}
     ]
   }
 }
