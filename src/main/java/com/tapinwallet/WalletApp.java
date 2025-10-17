@@ -14,7 +14,7 @@ public class WalletApp extends Application {
 
     static {
         System.setProperty("objectbox.disableUnpackLib", "true");
-        System.loadLibrary("objectbox-jni");
+        System.loadLibrary("objectbox-jni-linux-arm64");
     }
 
     @Override
