@@ -352,13 +352,17 @@
                 <executions>
                     <execution>
                         <id>copy-objectbox-so</id>
-                        <phase>generate-resources</phase>
+                        <!-- Run after Gluon rebuilds, but before APK is packed -->
+                        <phase>prepare-package</phase>
                         <configuration>
                             <target>
+                                <!-- Ensure folder exists -->
                                 <mkdir dir="target/gluonfx/aarch64-android/gvm/android_project/app/src/main/jniLibs/arm64-v8a"/>
+                                <echo message="Copying ObjectBox native library into jniLibs..."/>
                                 <copy file="src/main/resources/META-INF/substrate/lib/arm64-v8a/libobjectbox-jni.so"
                                       todir="target/gluonfx/aarch64-android/gvm/android_project/app/src/main/jniLibs/arm64-v8a"
-                                      overwrite="true"/>
+                                      overwrite="true" verbose="true"/>
+                                <echo message="✅ ObjectBox JNI library copied to jniLibs/arm64-v8a"/>
                             </target>
                         </configuration>
                         <goals>
@@ -367,8 +371,6 @@
                     </execution>
                 </executions>
             </plugin>
-
-
 
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
