@@ -119,6 +119,12 @@
             <version>5.0.1</version>
             <type>aar</type>
             <scope>compile</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>io.objectbox</groupId>
+                    <artifactId>objectbox-android</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!-- Add native libs for your platforms -->
