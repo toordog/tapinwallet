@@ -109,11 +109,11 @@
             <version>${objectboxVersion}</version>
         </dependency>
 
-        <!--        <dependency>
+        <dependency>
             <groupId>io.objectbox</groupId>
             <artifactId>objectbox-android</artifactId>
-            <version>${objectboxVersion}</version>
-        </dependency>-->
+            <version>5.0.1</version>
+        </dependency>
 
         <!-- Add native libs for your platforms -->
         <dependency>
