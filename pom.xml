@@ -455,7 +455,7 @@
                         <configuration>
                             <target>
                                 <mkdir dir="target/gluonfx/aarch64-android/gvm/android_project/app/src/main/jniLibs/arm64-v8a" />
-                                <copy file="target/objectbox-libs/jni/arm64-v8a/libobjectbox-jni.so"
+                                <copy file="src/android/app/src/main/jniLibs/arm64-v8a/libobjectbox-jni.so"
                                       todir="target/gluonfx/aarch64-android/gvm/android_project/app/src/main/jniLibs/arm64-v8a"
                                       overwrite="true" />
                             </target>
