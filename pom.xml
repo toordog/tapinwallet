@@ -467,7 +467,7 @@
                 </executions>
             </plugin>
 
-<!--            <plugin>
+            <!--            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-antrun-plugin</artifactId>
                 <version>3.1.0</version>
@@ -511,6 +511,34 @@
                     </compilerArgs>
                 </configuration>
             </plugin>
+            
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <id>copy-objectbox-so-final</id>
+                        <phase>package</phase>
+                        <configuration>
+                            <target>
+                                <mkdir dir="target/gluonfx/aarch64-android/gvm/android_project/app/src/main/jniLibs/arm64-v8a" />
+                                <copy
+                                    file="${project.basedir}/src/android/app/src/main/jniLibs/arm64-v8a/libobjectbox-jni.so"
+                                    todir="target/gluonfx/aarch64-android/gvm/android_project/app/src/main/jniLibs/arm64-v8a"
+                                    overwrite="true"
+                                    verbose="true" />
+                                <echo message="✅ ObjectBox JNI copied into jniLibs/arm64-v8a before APK packaging" />
+                            </target>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            
             
         </plugins>
     </build>
