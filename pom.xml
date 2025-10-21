@@ -29,9 +29,13 @@
             <id>central</id>
             <url>https://repo1.maven.org/maven2/</url>
         </repository>
-        <repository>
+        <!--        <repository>
             <id>objectbox</id>
             <url>https://maven.objectbox.io</url>
+        </repository>-->
+        <repository>
+            <id>objectbox-public</id>
+            <url>https://dl.bintray.com/objectbox/objectbox-java</url>
         </repository>
     </repositories>
 
@@ -114,6 +118,14 @@
             <artifactId>objectbox-android</artifactId>
             <version>5.0.1</version>
         </dependency>
+        
+        <dependency>
+            <groupId>io.objectbox</groupId>
+            <artifactId>objectbox-android</artifactId>
+            <version>5.0.1</version>
+            <scope>compile</scope>
+        </dependency>
+
 
         <!-- Add native libs for your platforms -->
         <dependency>
