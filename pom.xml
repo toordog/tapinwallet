@@ -261,6 +261,7 @@
                         <!-- XRPL4J binary codec definitions -->
                         <list>META-INF/services/.*</list>
                         <!--<list>definitions.json</list>-->
+                        <list>src/main/resources/META-INF/substrate/lib/arm64-v8a/libobjectbox-jni.so</list>
                     </resourcesList>
 
                     <reflectionList>
