@@ -451,7 +451,7 @@
                 <executions>
                     <execution>
                         <id>copy-objectbox-so</id>
-                        <phase>prepare-package</phase>
+                        <phase>package</phase>
                         <configuration>
                             <target>
                                 <mkdir dir="target/gluonfx/aarch64-android/gvm/android_project/app/src/main/jniLibs/arm64-v8a" />
