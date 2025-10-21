@@ -12,10 +12,10 @@ import javafx.stage.Stage;
 
 public class WalletApp extends Application {
 
-    static {
-        System.setProperty("objectbox.disableUnpackLib", "true");
-        System.loadLibrary("objectbox-jni");
-    }
+//    static {
+//        System.setProperty("objectbox.disableUnpackLib", "true");
+//        System.loadLibrary("objectbox-jni");
+//    }
 
     @Override
     public void start(Stage stage) throws IOException {

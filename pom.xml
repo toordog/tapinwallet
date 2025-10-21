@@ -171,7 +171,7 @@
 
     <build>
         
-        <resources>
+        <!--        <resources>
             <resource>
                 <directory>src/main/resources</directory>
                 <includes>
@@ -180,12 +180,12 @@
             </resource>
             <resource>
                 <directory>${project.basedir}/src/main/resources/native</directory>
-                <!--<targetPath>META-INF/native</targetPath>-->
+                <targetPath>META-INF/native</targetPath>
                 <includes>
                     <include>libobjectbox-jni-linux-arm64.so</include>
                 </includes>
             </resource>
-        </resources>
+        </resources>-->
         <plugins>
             <!-- JVM dev run: mvn -q -DskipTests javafx:run -->
             <plugin>
@@ -219,10 +219,10 @@
                     </args>
                     
                     <gluonfxConfiguration>
-                        <target>android</target>
+                        <!--                        <target>android</target>
                         <resourcesList>
                             <resource>src/main/resources/META-INF/substrate/lib/arm64-v8a/libobjectbox-jni-linux-arm64.so</resource>
-                        </resourcesList>
+                        </resourcesList>-->
                         <!--                        <jniList>
                             <jni>
                                 <name>libobjectbox-jni.so</name>
@@ -231,9 +231,9 @@
                         </jniList>-->
                     </gluonfxConfiguration>
                     
-                    <attachList>
+                    <!--                    <attachList>
                         <list>src/main/resources/native/libobjectbox-jni-linux-arm64.so</list>
-                    </attachList>
+                    </attachList>-->
                     
                     <!-- ensure FXML/CSS are bundled in native builds -->
                     <resourcesList>
@@ -243,7 +243,7 @@
                         <list>fonts/*.ttf</list>
                         <list>src/main/resources</list>
                         <!--<list>META-INF/native/libobjectbox-jni-linux-arm64.so</list>-->
-                        <list>native/libobjectbox-jni-linux-arm64.so</list>
+                        <!--<list>native/libobjectbox-jni-linux-arm64.so</list>-->
                         <list>META-INF/native-image/.*</list>
                         <list>META-INF/services/com.fasterxml.jackson.databind.Module</list>
                         <!-- XRPL4J binary codec definitions -->
@@ -345,18 +345,18 @@
                 </configuration>
             </plugin>
 
-            <plugin>
+            <!--            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-antrun-plugin</artifactId>
                 <version>3.1.0</version>
                 <executions>
                     <execution>
                         <id>copy-objectbox-so</id>
-                        <!-- Run after Gluon rebuilds, but before APK is packed -->
+                         Run after Gluon rebuilds, but before APK is packed 
                         <phase>prepare-package</phase>
                         <configuration>
                             <target>
-                                <!-- Ensure folder exists -->
+                                 Ensure folder exists 
                                 <mkdir dir="target/gluonfx/aarch64-android/gvm/android_project/app/src/main/jniLibs/arm64-v8a"/>
                                 <echo message="Copying ObjectBox native library into jniLibs..."/>
                                 <copy file="src/main/resources/META-INF/substrate/lib/arm64-v8a/libobjectbox-jni.so"
@@ -370,7 +370,7 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
+            </plugin>-->
 
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -380,7 +380,7 @@
                 </configuration>
             </plugin>
             
-            <plugin>
+            <!--            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
                 <version>3.3.1</version>
@@ -404,7 +404,57 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>-->
+            
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.6.1</version>
+                <executions>
+                    <execution>
+                        <id>unpack-objectbox-so</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>io.objectbox</groupId>
+                                    <artifactId>objectbox-android</artifactId>
+                                    <version>5.0.1</version>
+                                    <includes>**/*.so</includes>
+                                    <outputDirectory>${project.build.directory}/objectbox-libs</outputDirectory>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <id>copy-objectbox-so</id>
+                        <phase>prepare-package</phase>
+                        <configuration>
+                            <target>
+                                <mkdir dir="target/gluonfx/aarch64-android/gvm/android_project/app/src/main/jniLibs/arm64-v8a" />
+                                <copy file="target/objectbox-libs/jni/arm64-v8a/libobjectbox-jni.so"
+                                      todir="target/gluonfx/aarch64-android/gvm/android_project/app/src/main/jniLibs/arm64-v8a"
+                                      overwrite="true" />
+                            </target>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
             
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
