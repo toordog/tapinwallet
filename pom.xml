@@ -451,6 +451,28 @@
                 <version>3.1.0</version>
                 <executions>
                     <execution>
+                        <phase>prepare-package</phase>
+                        <configuration>
+                            <target>
+                                <copy
+                                    file="src/android/app/src/main/jniLibs/arm64-v8a/libobjectbox-jni.so"
+                                    todir="target/gluonfx/aarch64-android/gvm/android_project/app/src/main/jniLibs/arm64-v8a"
+                                    overwrite="true" />
+                            </target>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+<!--            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
                         <id>copy-objectbox-so</id>
                         <phase>package</phase>
                         <configuration>
@@ -466,7 +488,7 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
+            </plugin>-->
 
             
             <plugin>
