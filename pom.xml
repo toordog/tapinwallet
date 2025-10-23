@@ -17,7 +17,6 @@
         <gluonfx.target>host</gluonfx.target>
         <!-- used by javafx:run to fetch platform natives -->
         <javafx.platform></javafx.platform>
-        <objectboxVersion>5.0.1</objectboxVersion>
     </properties>
 
     <repositories>
@@ -29,22 +28,7 @@
             <id>central</id>
             <url>https://repo1.maven.org/maven2/</url>
         </repository>
-        <!--        <repository>
-            <id>objectbox</id>
-            <url>https://maven.objectbox.io</url>
-        </repository>-->
-        <repository>
-            <id>objectbox-public</id>
-            <url>https://dl.bintray.com/objectbox/objectbox-java</url>
-        </repository>
     </repositories>
-
-    <!--    <pluginRepositories>
-        <pluginRepository>
-            <id>objectbox</id>
-            <url>https://maven.objectbox.io</url>
-        </pluginRepository>
-    </pluginRepositories>-->
 
     <!--    <dependencyManagement>
         <dependencies>
@@ -106,44 +90,6 @@
             <version>2.19.0</version>
         </dependency>
         
-        <!-- Core ObjectBox library -->
-        <dependency>
-            <groupId>io.objectbox</groupId>
-            <artifactId>objectbox-java</artifactId>
-            <version>${objectboxVersion}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>io.objectbox</groupId>
-            <artifactId>objectbox-android</artifactId>
-            <version>5.0.1</version>
-            <type>aar</type>
-            <scope>compile</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>io.objectbox</groupId>
-                    <artifactId>objectbox-android</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-        <!-- Add native libs for your platforms -->
-        <dependency>
-            <groupId>io.objectbox</groupId>
-            <artifactId>objectbox-macos</artifactId>
-            <version>${objectboxVersion}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.objectbox</groupId>
-            <artifactId>objectbox-linux</artifactId>
-            <version>${objectboxVersion}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.objectbox</groupId>
-            <artifactId>objectbox-windows</artifactId>
-            <version>${objectboxVersion}</version>
-        </dependency>
-        
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -183,21 +129,6 @@
 
     <build>
         
-        <!--        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <includes>
-                    <include>**/*</include>
-                </includes>
-            </resource>
-            <resource>
-                <directory>${project.basedir}/src/main/resources/native</directory>
-                <targetPath>META-INF/native</targetPath>
-                <includes>
-                    <include>libobjectbox-jni-linux-arm64.so</include>
-                </includes>
-            </resource>
-        </resources>-->
         <plugins>
             <!-- JVM dev run: mvn -q -DskipTests javafx:run -->
             <plugin>
@@ -231,21 +162,9 @@
                     </args>
                     
                     <gluonfxConfiguration>
-                        <!--                        <target>android</target>
-                        <resourcesList>
-                            <resource>src/main/resources/META-INF/substrate/lib/arm64-v8a/libobjectbox-jni-linux-arm64.so</resource>
-                        </resourcesList>-->
-                        <!--                        <jniList>
-                            <jni>
-                                <name>libobjectbox-jni.so</name>
-                                <path>${project.basedir}/src/main/resources/META-INF/substrate/lib/arm64-v8a/libobjectbox-jni.so</path>
-                            </jni>
-                        </jniList>-->
+
                     </gluonfxConfiguration>
                     
-                    <!--                    <attachList>
-                        <list>src/main/resources/native/libobjectbox-jni-linux-arm64.so</list>
-                    </attachList>-->
                     
                     <!-- ensure FXML/CSS are bundled in native builds -->
                     <resourcesList>
@@ -254,14 +173,11 @@
                         <list>defaults/.*</list>
                         <list>fonts/*.ttf</list>
                         <list>src/main/resources</list>
-                        <!--<list>META-INF/native/libobjectbox-jni-linux-arm64.so</list>-->
-                        <!--<list>native/libobjectbox-jni-linux-arm64.so</list>-->
                         <list>META-INF/native-image/.*</list>
                         <list>META-INF/services/com.fasterxml.jackson.databind.Module</list>
                         <!-- XRPL4J binary codec definitions -->
                         <list>META-INF/services/.*</list>
                         <!--<list>definitions.json</list>-->
-                        <list>src/main/resources/META-INF/substrate/lib/arm64-v8a/libobjectbox-jni.so</list>
                     </resourcesList>
 
                     <reflectionList>
@@ -325,13 +241,7 @@
                         <list>com.fasterxml.jackson.databind.node.BinaryNode</list>
                         <list>com.fasterxml.jackson.databind.node.POJONode</list>
                         <list>com.fasterxml.jackson.databind.node.JsonNodeType</list>
-                        
-                        <list>io.objectbox.internal.NativeLibraryLoader</list>
                     </reflectionList>
-                    
-                    <jniConfigList>
-                        <jniConfigList>io.objectbox.internal.NativeLibraryLoader</jniConfigList>
-                    </jniConfigList>
                     
                     <proxyList>
                         <list>org.xrpl.xrpl4j.client.JsonRpcClient</list>
@@ -358,33 +268,6 @@
                 </configuration>
             </plugin>
 
-            <!--            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <version>3.1.0</version>
-                <executions>
-                    <execution>
-                        <id>copy-objectbox-so</id>
-                         Run after Gluon rebuilds, but before APK is packed 
-                        <phase>prepare-package</phase>
-                        <configuration>
-                            <target>
-                                 Ensure folder exists 
-                                <mkdir dir="target/gluonfx/aarch64-android/gvm/android_project/app/src/main/jniLibs/arm64-v8a"/>
-                                <echo message="Copying ObjectBox native library into jniLibs..."/>
-                                <copy file="src/main/resources/META-INF/substrate/lib/arm64-v8a/libobjectbox-jni.so"
-                                      todir="target/gluonfx/aarch64-android/gvm/android_project/app/src/main/jniLibs/arm64-v8a"
-                                      overwrite="true" verbose="true"/>
-                                <echo message="✅ ObjectBox JNI library copied to jniLibs/arm64-v8a"/>
-                            </target>
-                        </configuration>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>-->
-
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.11.0</version>
@@ -392,153 +275,6 @@
                     <release>${maven.compiler.release}</release>
                 </configuration>
             </plugin>
-            
-            <!--            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-resources-plugin</artifactId>
-                <version>3.3.1</version>
-                <executions>
-                    <execution>
-                        <id>copy-native-libs</id>
-                        <phase>process-resources</phase>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${project.build.outputDirectory}/native</outputDirectory>
-                            <resources>
-                                <resource>
-                                    <directory>${project.basedir}/objectbox-android/jni/arm64-v8a</directory>
-                                    <includes>
-                                        <include>libobjectbox-jni-linux-arm64.so</include>
-                                    </includes>
-                                </resource>
-                            </resources>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>-->
-            
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <version>3.6.1</version>
-                <executions>
-                    <execution>
-                        <id>unpack-objectbox-so</id>
-                        <phase>prepare-package</phase>
-                        <goals>
-                            <goal>unpack</goal>
-                        </goals>
-                        <configuration>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>io.objectbox</groupId>
-                                    <artifactId>objectbox-android</artifactId>
-                                    <version>5.0.1</version>
-                                    <includes>**/*.so</includes>
-                                    <outputDirectory>${project.build.directory}/objectbox-libs</outputDirectory>
-                                </artifactItem>
-                            </artifactItems>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <version>3.1.0</version>
-                <executions>
-                    <execution>
-                        <phase>prepare-package</phase>
-                        <configuration>
-                            <target>
-                                <copy
-                                    file="src/android/app/src/main/jniLibs/arm64-v8a/libobjectbox-jni.so"
-                                    todir="target/gluonfx/aarch64-android/gvm/android_project/app/src/main/jniLibs/arm64-v8a"
-                                    overwrite="true" />
-                            </target>
-                        </configuration>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <!--            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <version>3.1.0</version>
-                <executions>
-                    <execution>
-                        <id>copy-objectbox-so</id>
-                        <phase>package</phase>
-                        <configuration>
-                            <target>
-                                <mkdir dir="target/gluonfx/aarch64-android/gvm/android_project/app/src/main/jniLibs/arm64-v8a" />
-                                <copy file="src/android/app/src/main/jniLibs/arm64-v8a/libobjectbox-jni.so"
-                                      todir="target/gluonfx/aarch64-android/gvm/android_project/app/src/main/jniLibs/arm64-v8a"
-                                      overwrite="true" />
-                            </target>
-                        </configuration>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>-->
-
-            
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.11.0</version>
-                <configuration>
-                    <annotationProcessorPaths>
-                        <path>
-                            <groupId>io.objectbox</groupId>
-                            <artifactId>objectbox-processor</artifactId>
-                            <version>${objectboxVersion}</version>
-                        </path>
-                    </annotationProcessorPaths>
-                    <annotationProcessors>
-                        <annotationProcessor>io.objectbox.processor.ObjectBoxProcessorShim</annotationProcessor>
-                    </annotationProcessors>
-                    <compilerArgs>
-                        <arg>-Aobjectbox.modelPath=${project.basedir}/objectbox-models/default.json</arg>
-                    </compilerArgs>
-                </configuration>
-            </plugin>
-            
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <version>3.1.0</version>
-                <executions>
-                    <execution>
-                        <id>copy-objectbox-so-final</id>
-                        <phase>package</phase>
-                        <configuration>
-                            <target>
-                                <mkdir dir="target/gluonfx/aarch64-android/gvm/android_project/app/src/main/jniLibs/arm64-v8a" />
-                                <copy
-                                    file="${project.basedir}/src/android/app/src/main/jniLibs/arm64-v8a/libobjectbox-jni.so"
-                                    todir="target/gluonfx/aarch64-android/gvm/android_project/app/src/main/jniLibs/arm64-v8a"
-                                    overwrite="true"
-                                    verbose="true" />
-                                <echo message="✅ ObjectBox JNI copied into jniLibs/arm64-v8a before APK packaging" />
-                            </target>
-                        </configuration>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-            
             
         </plugins>
     </build>
