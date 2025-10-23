@@ -1,9 +1,6 @@
 package com.tapinwallet;
 
 import com.tapinwallet.controllers.AppShellController;
-import com.tapinwallet.data.store.IdentityRepository;
-import com.tapinwallet.data.store.TapinIdentity;
-import com.tapinwallet.data.store.WalletDB;
 import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -26,15 +23,15 @@ public class WalletApp extends Application {
         AppShellController controller = loader.getController();
 
         // let's see if we have an identity first off
-        IdentityRepository repo = new IdentityRepository();
-        TapinIdentity identity = repo.getById(1L);
-
-        if (identity != null) {
-            controller.goToHome();
-        } else {
-            controller.goToSetup();
-        }
-
+//        IdentityRepository repo = new IdentityRepository();
+//        TapinIdentity identity = repo.getById(1L);
+//
+//        if (identity != null) {
+//            controller.goToHome();
+//        } else {
+//            controller.goToSetup();
+//        }
+    controller.goToHome();
         stage.setTitle("Tapin Wallet");
         stage.setScene(scene);
         stage.show();
@@ -44,10 +41,4 @@ public class WalletApp extends Application {
         launch(args);
     }
 
-    @Override
-    public void stop() {
-        if (WalletDB.getStore() != null) {
-            WalletDB.getStore().close();
-        }
-    }
 }

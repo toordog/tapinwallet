@@ -3,7 +3,6 @@ package com.tapinwallet.util;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.tapinwallet.data.store.TapinIdentity;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,7 +30,4 @@ public record ApiResponse(
         return extra;
     }
     
-    public TapinIdentity build() {
-        return new TapinIdentity(message, body, signature, extra);
-    }
 }

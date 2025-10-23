@@ -1,8 +1,6 @@
 package com.tapinwallet.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tapinwallet.data.store.IdentityRepository;
-import com.tapinwallet.data.store.TapinIdentity;
 import com.tapinwallet.util.ApiResponse;
 import com.tapinwallet.util.CryptLite;
 import com.tapinwallet.util.IdentityRequestBuilder;
@@ -86,11 +84,6 @@ public class SetupViewController implements AppShellController.HasHost {
         System.out.println("Body keys: " + apiResponse.body().keySet());
         System.out.println("Identifier: " + identifier.get());
         System.out.println("Artifact: " + artifact.get());
-
-        IdentityRepository repo = new IdentityRepository();
-        TapinIdentity identity = apiResponse.build();
-
-        repo.addIdentity(identity);
 
         if (host != null) {
             host.goToHome();
