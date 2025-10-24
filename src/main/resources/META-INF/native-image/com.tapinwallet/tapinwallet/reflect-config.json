@@ -48,6 +48,18 @@
         "allDeclaredFields": true
     },
     {
+        "name": "com.tapinwallet.util.ApiResponse",
+        "allDeclaredConstructors": true,
+        "allDeclaredFields": true,
+        "allDeclaredMethods": true
+    },
+    {
+        "name": "com.tapinwallet.util.IdentityCreateResponse",
+        "allDeclaredConstructors": true,
+        "allDeclaredFields": true,
+        "allDeclaredMethods": true
+    },
+    {
         "name": "com.tapinwallet.util.JSBridge",
         "allDeclaredConstructors": true,
         "allDeclaredMethods": true,
