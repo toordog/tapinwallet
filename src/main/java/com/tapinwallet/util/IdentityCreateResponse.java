@@ -18,7 +18,7 @@ public record IdentityCreateResponse(
     public record Zkp(
             String hash,
             Map<String, Object> params,
-            long expiry
+            Long expiry
             ) {
 
     }

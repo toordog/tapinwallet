@@ -24,11 +24,8 @@ public final class IdentityRequestBuilder {
         );
 
         String bodyJson = mapper.writeValueAsString(data);
-
-        System.out.println("TO SIGN: " + bodyJson+"\n");
         String signature = CryptLite.sign(bodyJson, keyPair.getPrivate());
-        System.out.println("SIGNATURE: "+signature+"\n\n\n");
-
+        
         return Map.of(
                 "body", data,
                 "signature", signature

@@ -1,6 +1,5 @@
 package com.tapinwallet.controllers;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tapinwallet.util.ApiResponse;
 import com.tapinwallet.util.CryptLite;
@@ -18,9 +17,8 @@ import javafx.fxml.FXML;
 
 public class SetupViewController implements AppShellController.HasHost {
 
-    String url = "http://localhost:8888/cp/identity/create";
+    String url = "http://10.25.1.197:8888/cp/identity/create";
 
-    private static final ObjectMapper mapper = new ObjectMapper();
     private AppShellController host;
 
     @Override
@@ -41,65 +39,51 @@ public class SetupViewController implements AppShellController.HasHost {
         var headers = Map.of("Content-Type", "application/json");
 
         // Send
-        var response = sendRequest(url, "POST", headers, requestBody);
-        var jsonString = response.body();
+        ApiResponse<IdentityCreateResponse> response
+                = sendRequest(url, "POST", headers, requestBody, IdentityCreateResponse.class);
 
-        var artifact = response.headers().firstValue("x-bitcrumb-artifact");
-        var identifier = response.headers().firstValue("x-bitcrumb-identifier");
+        var artifact = response.headers().get("x-bitcrumb-artifact").getFirst();
+        var identifier = response.headers().get("x-bitcrumb-identifier").getFirst();
 
-        
-        System.out.println(jsonString);
-        
-        
-        //System.out.println("X-BITCRUMB_ARTIFACT: "+artifact.get()+"\n");
-        //System.out.println("X-BITCRUMB-IDENTIFIER: "+identifier.get()+"\n");
-        ObjectMapper mapper = new ObjectMapper();
+        System.out.println("X-BITCRUMB_ARTIFACT: " + artifact + "\n");
+        System.out.println("X-BITCRUMB-IDENTIFIER: " + identifier + "\n");
 
         // Deserialize JSON into the record
-        ApiResponse<IdentityCreateResponse> apiResponse
-                = mapper.readValue(jsonString, new TypeReference<ApiResponse<IdentityCreateResponse>>() {
-                });
+        System.out.println("Response:");
 
-        System.out.println(apiResponse.body().did());
-
-//        System.out.println("Response:");
-//
-//        // Pretty print
-//        System.out.println(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(apiResponse) + "\n\n\n");
-//
 //        // Access specific fields
-//        String did = apiResponse.body().get("did").toString();
-//        System.out.println("DID: " + did);
-//
-//        Map<String, ?> zkp = (Map) apiResponse.body().get("zkp");
-//        Map<String, String> params = (Map) zkp.get("params");
-//        String hash = zkp.get("hash").toString();
-//
-//        BigInteger a = new BigInteger(params.get("a"));
-//        BigInteger b = new BigInteger(params.get("b"));
-//        BigInteger c = new BigInteger(params.get("c"));
-//        BigInteger expiry = new BigInteger(((Map) apiResponse.body().get("zkp")).get("expiry").toString());
-//
-//        BigInteger d = new BigInteger(params.get("d"));
-//
-//        BigInteger commitment = a.add(b).add(c);
-//        BigInteger answer = commitment.subtract(expiry);
-//
-//        System.out.println("ZKP Valid: " + answer.equals(d));
-//        System.out.println("Hash: " + hash);
-//        System.out.println("Status: " + apiResponse.status());
-//        System.out.println("Signature: " + apiResponse.signature());
-//        System.out.println("Body keys: " + apiResponse.body().keySet());
-//        System.out.println("Identifier: " + identifier.get());
-//        System.out.println("Artifact: " + artifact.get());
-//        System.out.println(apiResponse.body());
+        System.out.println("DID: " + response.body().did());
+
+        IdentityCreateResponse icr = response.body();
+        Map<String, String> params = (Map) icr.zkp().params();
+        String hash = icr.zkp().hash();
+
+        BigInteger a = new BigInteger(params.get("a"));
+        BigInteger b = new BigInteger(params.get("b"));
+        BigInteger c = new BigInteger(params.get("c"));
+        BigInteger expiry = new BigInteger(icr.zkp().expiry().toString());
+
+        BigInteger d = new BigInteger(params.get("d"));
+
+        BigInteger commitment = a.add(b).add(c);
+        BigInteger answer = commitment.subtract(expiry);
+
+        System.out.println("ZKP Valid: " + answer.equals(d));
+        System.out.println("Hash: " + hash);
+        System.out.println("Status: " + response.status());
+        System.out.println("Signature: " + response.signature());
+        System.out.println("Identifier: " + identifier);
+
         if (host != null) {
             host.goToHome();
         }
     }
 
-    public static HttpResponse<String> sendRequest(String url, String method,
-            Map<String, String> headers, Object body) throws IOException, InterruptedException {
+    private final static ObjectMapper mapper = new ObjectMapper();
+
+    public static <T> ApiResponse<T> sendRequest(String url, String method, Map<String, String> headers, Object body, Class<T> bodyType
+    ) throws IOException, InterruptedException {
+
         HttpClient client = HttpClient.newBuilder()
                 .connectTimeout(Duration.ofSeconds(10))
                 .build();
@@ -132,7 +116,22 @@ public class SetupViewController implements AppShellController.HasHost {
                 builder.GET();
         }
 
-        return client.send(builder.build(), HttpResponse.BodyHandlers.ofString());
+        // Send the request and get the raw string response
+        HttpResponse<String> rawResponse = client.send(builder.build(), HttpResponse.BodyHandlers.ofString());
+
+        // Deserialize the body into T
+        ApiResponse<T> deserializedBody = mapper.readValue(
+                rawResponse.body(),
+                mapper.getTypeFactory().constructParametricType(ApiResponse.class, bodyType)
+        );
+
+        return new ApiResponse<>(
+                deserializedBody.status(),
+                deserializedBody.message(),
+                deserializedBody.body(),
+                rawResponse.headers().map(),
+                deserializedBody.signature()
+        );
     }
 
 }

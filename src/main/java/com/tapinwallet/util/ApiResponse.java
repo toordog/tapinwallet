@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.HashMap;
 import java.util.Map;
+import java.net.http.HttpHeaders;
+import java.util.List;
 
 /**
  * Generic API Response Record.
@@ -15,6 +17,7 @@ public record ApiResponse<T>(
     String status,
     String message,
     T body,
+    Map<String,List<String>> headers,
     String signature
 ) {
 
