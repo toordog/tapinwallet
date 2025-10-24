@@ -227,6 +227,12 @@
         "allDeclaredMethods": true
     },
     {
+        "name": "org.bouncycastle.jcajce.provider.asymmetric.rsa.PSSSignatureSpi$SHA256withRSA",
+        "allDeclaredConstructors": true,
+        "allDeclaredMethods": true,
+        "allDeclaredFields": true
+    },
+    {
         "name": "org.bouncycastle.jcajce.provider.asymmetric.rsa.KeyPairGeneratorSpi",
         "allDeclaredConstructors": true,
         "allDeclaredMethods": true,
