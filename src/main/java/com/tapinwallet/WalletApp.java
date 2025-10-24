@@ -2,17 +2,20 @@ package com.tapinwallet;
 
 import com.tapinwallet.controllers.AppShellController;
 import java.io.IOException;
+import java.security.Security;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 public class WalletApp extends Application {
 
-//    static {
-//        System.setProperty("objectbox.disableUnpackLib", "true");
-//        System.loadLibrary("objectbox-jni");
-//    }
+    static {
+        if (Security.getProvider("BC") == null) {
+            Security.addProvider(new BouncyCastleProvider());
+        }
+    }
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -31,7 +34,6 @@ public class WalletApp extends Application {
 //        } else {
 //            controller.goToSetup();
 //        }
-    
         controller.goToSetup();
 
         stage.setTitle("Tapin Wallet");

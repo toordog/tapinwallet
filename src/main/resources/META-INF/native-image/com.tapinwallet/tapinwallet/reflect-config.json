@@ -225,5 +225,21 @@
         "name": "netscape.javascript.JSObject",
         "allPublicMethods": true,
         "allDeclaredMethods": true
+    },
+    {
+        "name": "org.bouncycastle.jce.provider.BouncyCastleProvider",
+        "allDeclaredConstructors": true,
+        "allDeclaredMethods": true,
+        "allDeclaredFields": true
+    },
+    {
+        "name": "org.bouncycastle.jcajce.provider.asymmetric.RSA$KeyPairGenerator",
+        "allDeclaredConstructors": true,
+        "allDeclaredMethods": true
+    },
+    {
+        "name": "org.bouncycastle.jcajce.provider.asymmetric.RSA$KeyFactory",
+        "allDeclaredConstructors": true,
+        "allDeclaredMethods": true
     }
 ]

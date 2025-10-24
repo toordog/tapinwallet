@@ -161,6 +161,11 @@
                         <arg>-Dprism.useFontConfig=true</arg>
                     </args>
                     
+                    <buildArgs>
+                        <arg>--enable-all-security-services</arg>
+                        <arg>--initialize-at-build-time=org.bouncycastle.jce.provider.BouncyCastleProvider</arg>
+                    </buildArgs>
+                    
                     <gluonfxConfiguration>
 
                     </gluonfxConfiguration>
@@ -241,6 +246,8 @@
                         <list>com.fasterxml.jackson.databind.node.BinaryNode</list>
                         <list>com.fasterxml.jackson.databind.node.POJONode</list>
                         <list>com.fasterxml.jackson.databind.node.JsonNodeType</list>
+                        
+                        <list>org.bouncycastle.jce.provider.BouncyCastleProvider</list>
                     </reflectionList>
                     
                     <proxyList>
