@@ -48,6 +48,12 @@
         "allDeclaredFields": true
     },
     {
+        "name": "com.tapinwallet.util.IdentityCreateResponse$Zkp",
+        "allDeclaredConstructors": true,
+        "allDeclaredFields": true,
+        "allDeclaredMethods": true
+    },
+    {
         "name": "com.tapinwallet.util.ApiResponse",
         "allDeclaredConstructors": true,
         "allDeclaredFields": true,

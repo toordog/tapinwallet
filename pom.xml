@@ -195,6 +195,7 @@
                         <list>com.tapinwallet.controllers.ActionPopupController</list>
                         <list>com.tapinwallet.util.IdentityCreateResponse</list>
                         <list>com.tapinwallet.util.ApiResponse</list>
+                        <list>om.tapinwallet.util.IdentityCreateResponse$Zkp</list>
 
                         <!--Utilities--> 
                         <list>com.tapinwallet.controllers.ConfigManager</list>
