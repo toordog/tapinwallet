@@ -193,6 +193,8 @@
                         <list>com.tapinwallet.controllers.SettingsViewController</list>
                         <list>com.tapinwallet.controllers.SetupViewController</list>
                         <list>com.tapinwallet.controllers.ActionPopupController</list>
+                        <list>com.tapinwallet.util.IdentityCreateResponse</list>
+                        <list>com.tapinwallet.util.ApiResponse</list>
 
                         <!--Utilities--> 
                         <list>com.tapinwallet.controllers.ConfigManager</list>
