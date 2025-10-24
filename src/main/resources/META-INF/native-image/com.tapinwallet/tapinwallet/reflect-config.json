@@ -235,11 +235,25 @@
     {
         "name": "org.bouncycastle.jcajce.provider.asymmetric.RSA$KeyPairGenerator",
         "allDeclaredConstructors": true,
-        "allDeclaredMethods": true
+        "allDeclaredMethods": true,
+        "allDeclaredFields": true
     },
     {
         "name": "org.bouncycastle.jcajce.provider.asymmetric.RSA$KeyFactory",
         "allDeclaredConstructors": true,
-        "allDeclaredMethods": true
+        "allDeclaredMethods": true,
+        "allDeclaredFields": true
+    },
+    {
+        "name": "org.bouncycastle.jcajce.provider.asymmetric.RSA$Mappings",
+        "allDeclaredConstructors": true,
+        "allDeclaredMethods": true,
+        "allDeclaredFields": true
+    },
+    {
+        "name": "org.bouncycastle.jcajce.provider.asymmetric.RSA$PSSSignatureSpi",
+        "allDeclaredConstructors": true,
+        "allDeclaredMethods": true,
+        "allDeclaredFields": true
     }
 ]
