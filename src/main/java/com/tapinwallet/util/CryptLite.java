@@ -18,13 +18,13 @@ public final class CryptLite {
         if (Security.getProvider("BC") == null) {
             Security.addProvider(new BouncyCastleProvider());
         }
-    }
-
-    private CryptLite() {
+        
         for (var p : Security.getProviders()) {
             System.out.println("XXX Provider: " + p.getName());
         }
     }
+
+    private CryptLite() {}
 
     /** Generate an RSA keypair identical to backend Crypt.java */
     public static KeyPair generateKeyPair() {
