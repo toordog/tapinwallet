@@ -11,10 +11,10 @@ import java.util.Map;
  * Designed to handle varied response shapes while keeping strong typing for known fields.
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public record ApiResponse(
+public record ApiResponse<T>(
     String status,
     String message,
-    @JsonProperty("body") Map<String, Object> body,
+    T body,
     String signature
 ) {
 

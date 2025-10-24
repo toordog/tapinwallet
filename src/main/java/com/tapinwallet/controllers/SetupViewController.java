@@ -1,8 +1,10 @@
 package com.tapinwallet.controllers;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tapinwallet.util.ApiResponse;
 import com.tapinwallet.util.CryptLite;
+import com.tapinwallet.util.IdentityCreateResponse;
 import com.tapinwallet.util.IdentityRequestBuilder;
 import java.io.IOException;
 import java.math.BigInteger;
@@ -45,46 +47,52 @@ public class SetupViewController implements AppShellController.HasHost {
         var artifact = response.headers().firstValue("x-bitcrumb-artifact");
         var identifier = response.headers().firstValue("x-bitcrumb-identifier");
 
+        
+        System.out.println(jsonString);
+        
+        
         //System.out.println("X-BITCRUMB_ARTIFACT: "+artifact.get()+"\n");
         //System.out.println("X-BITCRUMB-IDENTIFIER: "+identifier.get()+"\n");
         ObjectMapper mapper = new ObjectMapper();
 
         // Deserialize JSON into the record
-        ApiResponse apiResponse = mapper.readValue(jsonString, ApiResponse.class);
+        ApiResponse<IdentityCreateResponse> apiResponse
+                = mapper.readValue(jsonString, new TypeReference<ApiResponse<IdentityCreateResponse>>() {
+                });
 
-        System.out.println(apiResponse);
+        System.out.println(apiResponse.body().did());
 
-        System.out.println("Response:");
-
-        // Pretty print
-        System.out.println(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(apiResponse) + "\n\n\n");
-
-        // Access specific fields
-        String did = apiResponse.body().get("did").toString();
-        System.out.println("DID: " + did);
-
-        Map<String, ?> zkp = (Map) apiResponse.body().get("zkp");
-        Map<String, String> params = (Map) zkp.get("params");
-        String hash = zkp.get("hash").toString();
-
-        BigInteger a = new BigInteger(params.get("a"));
-        BigInteger b = new BigInteger(params.get("b"));
-        BigInteger c = new BigInteger(params.get("c"));
-        BigInteger expiry = new BigInteger(((Map) apiResponse.body().get("zkp")).get("expiry").toString());
-
-        BigInteger d = new BigInteger(params.get("d"));
-
-        BigInteger commitment = a.add(b).add(c);
-        BigInteger answer = commitment.subtract(expiry);
-
-        System.out.println("ZKP Valid: " + answer.equals(d));
-        System.out.println("Hash: " + hash);
-        System.out.println("Status: " + apiResponse.status());
-        System.out.println("Signature: " + apiResponse.signature());
-        System.out.println("Body keys: " + apiResponse.body().keySet());
-        System.out.println("Identifier: " + identifier.get());
-        System.out.println("Artifact: " + artifact.get());
-
+//        System.out.println("Response:");
+//
+//        // Pretty print
+//        System.out.println(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(apiResponse) + "\n\n\n");
+//
+//        // Access specific fields
+//        String did = apiResponse.body().get("did").toString();
+//        System.out.println("DID: " + did);
+//
+//        Map<String, ?> zkp = (Map) apiResponse.body().get("zkp");
+//        Map<String, String> params = (Map) zkp.get("params");
+//        String hash = zkp.get("hash").toString();
+//
+//        BigInteger a = new BigInteger(params.get("a"));
+//        BigInteger b = new BigInteger(params.get("b"));
+//        BigInteger c = new BigInteger(params.get("c"));
+//        BigInteger expiry = new BigInteger(((Map) apiResponse.body().get("zkp")).get("expiry").toString());
+//
+//        BigInteger d = new BigInteger(params.get("d"));
+//
+//        BigInteger commitment = a.add(b).add(c);
+//        BigInteger answer = commitment.subtract(expiry);
+//
+//        System.out.println("ZKP Valid: " + answer.equals(d));
+//        System.out.println("Hash: " + hash);
+//        System.out.println("Status: " + apiResponse.status());
+//        System.out.println("Signature: " + apiResponse.signature());
+//        System.out.println("Body keys: " + apiResponse.body().keySet());
+//        System.out.println("Identifier: " + identifier.get());
+//        System.out.println("Artifact: " + artifact.get());
+//        System.out.println(apiResponse.body());
         if (host != null) {
             host.goToHome();
         }

@@ -31,7 +31,9 @@ public class WalletApp extends Application {
 //        } else {
 //            controller.goToSetup();
 //        }
-    controller.goToHome();
+    
+        controller.goToSetup();
+
         stage.setTitle("Tapin Wallet");
         stage.setScene(scene);
         stage.show();
