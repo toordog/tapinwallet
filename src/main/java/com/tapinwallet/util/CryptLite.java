@@ -15,11 +15,16 @@ import org.bouncycastle.util.io.pem.PemWriter;
 public final class CryptLite {
 
     static {
-        // Ensure BouncyCastle is available
-        Security.addProvider(new BouncyCastleProvider());
+        if (Security.getProvider("BC") == null) {
+            Security.addProvider(new BouncyCastleProvider());
+        }
     }
 
-    private CryptLite() {}
+    private CryptLite() {
+        for (var p : Security.getProviders()) {
+            System.out.println("XXX Provider: " + p.getName());
+        }
+    }
 
     /** Generate an RSA keypair identical to backend Crypt.java */
     public static KeyPair generateKeyPair() {

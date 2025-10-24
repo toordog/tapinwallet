@@ -193,6 +193,7 @@
                         <list>com.tapinwallet.controllers.SettingsViewController</list>
                         <list>com.tapinwallet.controllers.SetupViewController</list>
                         <list>com.tapinwallet.controllers.ActionPopupController</list>
+                        <!--<list>com.tappinwallet.util.CryptLite</list>-->
 
                         <!--Utilities--> 
                         <list>com.tapinwallet.controllers.ConfigManager</list>
