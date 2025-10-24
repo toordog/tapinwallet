@@ -161,15 +161,14 @@
                         <arg>-Dprism.useFontConfig=true</arg>
                     </args>
                     
-                    <buildArgs>
-                        <arg>--enable-all-security-services</arg>
-                        <arg>--initialize-at-build-time=org.bouncycastle.jce.provider.BouncyCastleProvider</arg>
-                    </buildArgs>
-                    
                     <gluonfxConfiguration>
 
                     </gluonfxConfiguration>
                     
+                    <buildArgs>
+                        <arg>--enable-all-security-services</arg>
+                        <arg>--initialize-at-build-time=org.bouncycastle.jce.provider.BouncyCastleProvider</arg>
+                    </buildArgs>
                     
                     <!-- ensure FXML/CSS are bundled in native builds -->
                     <resourcesList>

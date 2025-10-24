@@ -20,6 +20,10 @@ public class WalletApp extends Application {
     @Override
     public void start(Stage stage) throws IOException {
 
+        for (var p : Security.getProviders()) {
+            System.out.println("Provider: " + p.getName());
+        }
+
         FXMLLoader loader = new FXMLLoader(WalletApp.class.getResource("AppShell.fxml"));
         Scene scene = new Scene(loader.load(), 425, 900);
 
