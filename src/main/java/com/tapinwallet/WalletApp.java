@@ -1,6 +1,7 @@
 package com.tapinwallet;
 
 import com.tapinwallet.controllers.AppShellController;
+import com.tapinwallet.util.PropertyUtil;
 import java.io.IOException;
 import java.security.Security;
 import javafx.application.Application;
@@ -19,16 +20,14 @@ public class WalletApp extends Application {
 
         AppShellController controller = loader.getController();
 
-        // let's see if we have an identity first off
-//        IdentityRepository repo = new IdentityRepository();
-//        TapinIdentity identity = repo.getById(1L);
-//
-//        if (identity != null) {
-//            controller.goToHome();
-//        } else {
-//            controller.goToSetup();
-//        }
-        controller.goToSetup();
+        String currentId =  PropertyUtil.get("default", null);
+
+        if(currentId == null) {
+            controller.goToSetup();
+        } else {
+            controller.ctx.id = currentId;
+            controller.goToHome();
+        }
 
         stage.setTitle("Tapin Wallet");
         stage.setScene(scene);

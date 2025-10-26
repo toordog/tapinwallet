@@ -5,6 +5,7 @@
 package com.tapinwallet.controllers;
 
 import com.tapinwallet.data.BaseController;
+import com.tapinwallet.util.tinydb.DynamicEntity;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
@@ -13,18 +14,16 @@ import javafx.fxml.Initializable;
  *
  * @author michael
  */
-public class HomeViewController extends BaseController implements Initializable,AppShellController.HasHost {
+public class HomeViewController extends BaseController implements AppShellController.HasHost {
 
     AppShellController host;
     
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        
-    }
-    
-    @Override
     public void onAppContextAvailable() {
-        System.out.println("CTX: "+ctx);
+        DynamicEntity profile = ctx.profiles.find("Identity", ctx.id);
+        System.out.println("DID: "+profile.get("did"));
+        
+        System.out.println("Tokenized: "+profile.tokenizeFields(new String[] {"name","did"}));
     }
 
     @Override

@@ -19,7 +19,7 @@ import javafx.scene.layout.HBox;
 
 public class AppShellController implements Initializable {
 
-    private AppContext ctx = new AppContext();
+    public AppContext ctx = new AppContext();
 
     @FXML
     private BorderPane rootPane;

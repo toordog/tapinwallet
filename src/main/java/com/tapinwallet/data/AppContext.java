@@ -1,5 +1,8 @@
 package com.tapinwallet.data;
 
+import com.tapinwallet.util.CryptLite;
+import com.tapinwallet.util.tinydb.Database;
+import com.tapinwallet.util.tinydb.TinyDB;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 
@@ -8,6 +11,10 @@ import javafx.beans.property.SimpleObjectProperty;
  * @author michael
  */
 public class AppContext {
+    
+    private String pass = CryptLite.sha512("pass".getBytes(), "salt".getBytes());
+    public Database profiles = TinyDB.open("profiles", pass);
+    public String id;
     
     private final ObjectProperty<ModEntry> selectedMod =
             new SimpleObjectProperty<>();

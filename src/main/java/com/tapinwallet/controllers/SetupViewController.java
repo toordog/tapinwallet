@@ -1,10 +1,15 @@
 package com.tapinwallet.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tapinwallet.data.BaseController;
 import com.tapinwallet.util.ApiResponse;
 import com.tapinwallet.util.CryptLite;
 import com.tapinwallet.util.IdentityCreateResponse;
 import com.tapinwallet.util.IdentityRequestBuilder;
+import com.tapinwallet.util.PropertyUtil;
+import com.tapinwallet.util.tinydb.Database;
+import com.tapinwallet.util.tinydb.DynamicEntity;
+import com.tapinwallet.util.tinydb.TinyDB;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.net.URI;
@@ -15,9 +20,9 @@ import java.time.Duration;
 import java.util.Map;
 import javafx.fxml.FXML;
 
-public class SetupViewController implements AppShellController.HasHost {
+public class SetupViewController extends BaseController implements AppShellController.HasHost {
 
-    String url = "http://10.25.1.197:8888/cp/identity/create";
+    String url = "http://10.25.1.198:8888/cp/identity/create";
 
     private AppShellController host;
 
@@ -26,6 +31,11 @@ public class SetupViewController implements AppShellController.HasHost {
         this.host = host;
     }
 
+    @Override
+    public void onAppContextAvailable() {
+        System.out.println("XXX CTX: "+ctx);
+    }
+    
     @FXML
     private void handleCreateWallet() throws Exception {
 
@@ -74,6 +84,14 @@ public class SetupViewController implements AppShellController.HasHost {
         System.out.println("Signature: " + response.signature());
         System.out.println("Identifier: " + identifier);
 
+        DynamicEntity id = ctx.profiles.create("Identity");
+        id.set("did", response.body().did());
+        id.set("name", "Michael Marquez");
+        id.persist();
+        
+        PropertyUtil.set("default", id.getId());
+        ctx.id = id.getId();
+        
         if (host != null) {
             host.goToHome();
         }

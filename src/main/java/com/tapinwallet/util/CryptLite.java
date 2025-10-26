@@ -3,6 +3,9 @@ package com.tapinwallet.util;
 import java.io.StringWriter;
 import java.security.*;
 import java.security.spec.*;
+import org.bouncycastle.crypto.Digest;
+import org.bouncycastle.crypto.digests.SHA512Digest;
+import org.bouncycastle.crypto.prng.FixedSecureRandom;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.util.encoders.Base64;
 import org.bouncycastle.util.io.pem.PemObject;
@@ -19,13 +22,47 @@ public final class CryptLite {
             Security.addProvider(new BouncyCastleProvider());
         }
         
-        for (var p : Security.getProviders()) {
-            System.out.println("XXX Provider: " + p.getName());
-        }
+//        for (var p : Security.getProviders()) {
+//            System.out.println("XXX Provider: " + p.getName());
+//        }
     }
 
     private CryptLite() {}
 
+    public static String sha512Random() {
+        try {
+            byte[] keyBytes = new byte[32]; // Length of SHA-512 hash in bytes
+            new FixedSecureRandom(generateRandomSeed()).nextBytes(keyBytes);
+
+            return sha512(keyBytes, generateRandomSeed());
+        } catch (Exception e) {
+//            e.printStackTrace();
+            return null;
+        }
+    }
+    
+    public static String sha512(byte[] input, byte[] salt) {
+
+        Digest digest = new SHA512Digest();
+        byte[] combined = new byte[input.length + salt.length];
+
+        System.arraycopy(input, 0, combined, 0, input.length);
+        System.arraycopy(salt, 0, combined, input.length, salt.length);
+
+        byte[] output = new byte[digest.getDigestSize()];
+        digest.update(combined, 0, combined.length);
+        digest.doFinal(output, 0);
+
+        return org.bouncycastle.util.encoders.Hex.toHexString(output);
+    }
+    
+    private static byte[] generateRandomSeed() {
+        byte[] randomSeed = new byte[32]; // Adjust length as needed
+        SecureRandom secureRandom = generateSecureRandom();
+        secureRandom.nextBytes(randomSeed);
+        return randomSeed;
+    }
+    
     /** Generate an RSA keypair identical to backend Crypt.java */
     public static KeyPair generateKeyPair() {
         try {
