@@ -18,9 +18,9 @@ public class Tokenizer {
 
     private static final ObjectMapper mapper = new ObjectMapper();
 
-    public static Map<String, String> tokenizeMap(Map<String, Object> map) {
+    public static Map<String, Object> tokenizeMap(Map<String, Object> map) {
 
-        Map<String, String> tokenized = new LinkedHashMap<>();
+        Map<String, Object> tokenized = new LinkedHashMap<>();
         for (var e : map.entrySet()) {
             tokenized.put(e.getKey(), hash(e.getValue()));
         }
@@ -28,9 +28,9 @@ public class Tokenizer {
 
     }
 
-    public static Map<String, String> tokenizeFields(Map<String, Object> map, String[] fields) {
+    public static Map<String, Object> tokenizeFields(Map<String, Object> map, String[] fields) {
 
-        Map<String, String> tokenized = new LinkedHashMap<>();
+        Map<String, Object> tokenized = new LinkedHashMap<>();
         for (String f : fields) {
             if (map.containsKey(f)) {
                 tokenized.put(f, hash(map.get(f)));

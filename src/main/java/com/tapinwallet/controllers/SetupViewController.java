@@ -15,6 +15,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
+import java.util.HashMap;
 import java.util.Map;
 import javafx.fxml.FXML;
 
@@ -57,34 +58,24 @@ public class SetupViewController extends BaseController implements AppShellContr
         System.out.println("X-BITCRUMB-IDENTIFIER: " + identifier + "\n");
 
         // Deserialize JSON into the record
-        System.out.println("Response:");
+//        System.out.println("Response:");
 
 //        // Access specific fields
-        System.out.println("DID: " + response.body().did());
+//        System.out.println("DID: " + response.body().did());
 
         IdentityCreateResponse icr = response.body();
-        Map<String, String> params = (Map) icr.zkp().params();
-        String hash = icr.zkp().hash();
+//        Map<String, String> params = (Map) icr.zkp().params();
 
-        BigInteger a = new BigInteger(params.get("a"));
-        BigInteger b = new BigInteger(params.get("b"));
-        BigInteger c = new BigInteger(params.get("c"));
-        BigInteger expiry = new BigInteger(icr.zkp().expiry().toString());
-
-        BigInteger d = new BigInteger(params.get("d"));
-
-        BigInteger commitment = a.add(b).add(c);
-        BigInteger answer = commitment.subtract(expiry);
-
-        System.out.println("ZKP Valid: " + answer.equals(d));
-        System.out.println("Hash: " + hash);
-        System.out.println("Status: " + response.status());
-        System.out.println("Signature: " + response.signature());
-        System.out.println("Identifier: " + identifier);
+//        System.out.println("ZKP Valid: " + icr.zkp().isValid());
+//        System.out.println("Hash: " + hash);
+//        System.out.println("Status: " + response.status());
+//        System.out.println("Signature: " + response.signature());
+//        System.out.println("Identifier: " + identifier);
 
         DynamicEntity id = ctx.profiles.create("Identity");
         id.set("did", response.body().did());
         id.set("name", "Michael Marquez");
+        
         id.set("zkp", icr.zkp());
         id.persist();
         

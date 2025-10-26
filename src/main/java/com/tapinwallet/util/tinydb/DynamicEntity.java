@@ -38,9 +38,9 @@ public class DynamicEntity {
         }
     }
 
-    public Map<String,String> tokenizeAll() { return Tokenizer.tokenizeMap(data); }
+    public Map<String,Object> tokenizeAll() { return Tokenizer.tokenizeMap(data); }
 
-    public Map<String,String> tokenizeFields(String[] fields) {
+    public Map<String,Object> tokenizeFields(String[] fields) {
         Map<String,Object> subset = new LinkedHashMap<>();
         for(String f: fields) if(data.containsKey(f)) subset.put(f,data.get(f));
         return Tokenizer.tokenizeMap(subset);

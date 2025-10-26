@@ -4,7 +4,9 @@
  */
 package com.tapinwallet.controllers;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tapinwallet.data.BaseController;
+import com.tapinwallet.util.IdentityCreateResponse;
 import com.tapinwallet.util.tinydb.DynamicEntity;
 import java.util.Map;
 
@@ -20,14 +22,16 @@ public class HomeViewController extends BaseController implements AppShellContro
     public void onAppContextAvailable() {
         DynamicEntity profile = ctx.profiles.find("Identity", ctx.id);
         
-        Map<String,String> tokens = profile.tokenizeFields(new String[] {"name","did"});
+        Map<String,Object> tokens = profile.tokenizeFields(new String[] {"name","did"});
         System.out.println("Name: "+profile.get("name"));
         System.out.println("Token: "+tokens.get("name"));
         
         System.out.println("DID: "+profile.get("did"));
         System.out.println("Token: "+tokens.get("did"));
         
-        System.out.println("ZKP: "+profile.get("zkp"));
+        IdentityCreateResponse.Zkp zkp = new ObjectMapper().convertValue(profile.get("zkp"), IdentityCreateResponse.Zkp.class);
+        
+        System.out.println("ZKP Valid: "+zkp.isValid());
     }
 
     @Override
