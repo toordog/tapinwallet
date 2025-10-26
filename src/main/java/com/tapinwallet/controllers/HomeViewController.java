@@ -4,9 +4,12 @@
  */
 package com.tapinwallet.controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tapinwallet.data.BaseController;
 import com.tapinwallet.util.tinydb.DynamicEntity;
 import java.net.URL;
+import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
 
@@ -21,9 +24,13 @@ public class HomeViewController extends BaseController implements AppShellContro
     @Override
     public void onAppContextAvailable() {
         DynamicEntity profile = ctx.profiles.find("Identity", ctx.id);
-        System.out.println("DID: "+profile.get("did"));
         
-        System.out.println("Tokenized: "+profile.tokenizeFields(new String[] {"name","did"}));
+        Map<String,String> tokens = profile.tokenizeFields(new String[] {"name","did"});
+        System.out.println("Name: "+profile.get("name"));
+        System.out.println("Token: "+tokens.get("name"));
+        
+        System.out.println("DID: "+profile.get("did"));
+        System.out.println("Token: "+tokens.get("did"));
     }
 
     @Override

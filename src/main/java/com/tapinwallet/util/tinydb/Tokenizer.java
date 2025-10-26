@@ -15,30 +15,29 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tapinwallet.util.CryptLite;
 
 public class Tokenizer {
+
     private static final ObjectMapper mapper = new ObjectMapper();
 
-    public static String tokenizeMap(Map<String, Object> map) {
-        try {
-            Map<String, String> tokenized = new LinkedHashMap<>();
-            for (var e : map.entrySet()) {
-                tokenized.put(e.getKey(), hash(e.getValue()));
-            }
-            return mapper.writeValueAsString(tokenized);
-        } catch (Exception e) {
-            throw new RuntimeException("Tokenization failed", e);
+    public static Map<String, String> tokenizeMap(Map<String, Object> map) {
+
+        Map<String, String> tokenized = new LinkedHashMap<>();
+        for (var e : map.entrySet()) {
+            tokenized.put(e.getKey(), hash(e.getValue()));
         }
+        return tokenized;
+
     }
 
-    public static String tokenizeFields(Map<String, Object> map, String[] fields) {
-        try {
-            Map<String, String> tokenized = new LinkedHashMap<>();
-            for (String f : fields) {
-                if (map.containsKey(f)) tokenized.put(f, hash(map.get(f)));
+    public static Map<String, String> tokenizeFields(Map<String, Object> map, String[] fields) {
+
+        Map<String, String> tokenized = new LinkedHashMap<>();
+        for (String f : fields) {
+            if (map.containsKey(f)) {
+                tokenized.put(f, hash(map.get(f)));
             }
-            return mapper.writeValueAsString(tokenized);
-        } catch (Exception e) {
-            throw new RuntimeException("Tokenization failed", e);
         }
+        return tokenized;
+
     }
 
     private static String hash(Object value) {
