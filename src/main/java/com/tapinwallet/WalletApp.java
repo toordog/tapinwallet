@@ -3,12 +3,10 @@ package com.tapinwallet;
 import com.tapinwallet.controllers.AppShellController;
 import com.tapinwallet.util.PropertyUtil;
 import java.io.IOException;
-import java.security.Security;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 public class WalletApp extends Application {
 

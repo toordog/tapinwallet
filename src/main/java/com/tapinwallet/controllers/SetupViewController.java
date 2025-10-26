@@ -7,9 +7,7 @@ import com.tapinwallet.util.CryptLite;
 import com.tapinwallet.util.IdentityCreateResponse;
 import com.tapinwallet.util.IdentityRequestBuilder;
 import com.tapinwallet.util.PropertyUtil;
-import com.tapinwallet.util.tinydb.Database;
 import com.tapinwallet.util.tinydb.DynamicEntity;
-import com.tapinwallet.util.tinydb.TinyDB;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.net.URI;
@@ -33,7 +31,7 @@ public class SetupViewController extends BaseController implements AppShellContr
 
     @Override
     public void onAppContextAvailable() {
-        System.out.println("XXX CTX: "+ctx);
+        
     }
     
     @FXML
@@ -87,6 +85,7 @@ public class SetupViewController extends BaseController implements AppShellContr
         DynamicEntity id = ctx.profiles.create("Identity");
         id.set("did", response.body().did());
         id.set("name", "Michael Marquez");
+        id.set("zkp", icr.zkp());
         id.persist();
         
         PropertyUtil.set("default", id.getId());

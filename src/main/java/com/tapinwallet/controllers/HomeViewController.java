@@ -4,14 +4,9 @@
  */
 package com.tapinwallet.controllers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tapinwallet.data.BaseController;
 import com.tapinwallet.util.tinydb.DynamicEntity;
-import java.net.URL;
 import java.util.Map;
-import java.util.ResourceBundle;
-import javafx.fxml.Initializable;
 
 /**
  *
@@ -31,6 +26,8 @@ public class HomeViewController extends BaseController implements AppShellContro
         
         System.out.println("DID: "+profile.get("did"));
         System.out.println("Token: "+tokens.get("did"));
+        
+        System.out.println("ZKP: "+profile.get("zkp"));
     }
 
     @Override
