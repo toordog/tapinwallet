@@ -285,5 +285,38 @@
         "allDeclaredConstructors": true,
         "allDeclaredMethods": true,
         "allDeclaredFields": true
+    },
+    {
+        "name": "java.net.http.HttpClient",
+        "allDeclaredConstructors": true,
+        "allPublicMethods": true
+    },
+    {
+        "name": "java.net.http.HttpRequest",
+        "allDeclaredConstructors": true,
+        "allPublicMethods": true
+    },
+    {
+        "name": "java.net.http.HttpResponse",
+        "allDeclaredConstructors": true,
+        "allPublicMethods": true,
+        "allDeclaredClasses": true
+    },
+    {
+        "name": "com.tapinwallet.controllers.SetupViewController",
+        "allDeclaredConstructors": true,
+        "allDeclaredMethods": true
+    },
+    {
+        "name": "com.tapinwallet.util.ApiResponse",
+        "allDeclaredConstructors": true,
+        "allPublicFields": true,
+        "allDeclaredMethods": true
+    },
+    {
+        "name": "com.tapinwallet.util.IdentityCreateResponse",
+        "allDeclaredConstructors": true,
+        "allPublicFields": true,
+        "allDeclaredMethods": true
     }
 ]

@@ -197,6 +197,21 @@
                         <list>com.tapinwallet.util.ApiResponse</list>
                         <list>om.tapinwallet.util.IdentityCreateResponse$Zkp</list>
 
+                        <!-- Java HTTP client reflection classes -->
+                        <list>java.net.http.HttpClient</list>
+                        <list>java.net.http.HttpRequest</list>
+                        <list>java.net.http.HttpResponse</list>
+                        <list>java.net.http.HttpResponse$BodyHandlers</list>
+                        <list>java.net.http.HttpResponse$BodySubscribers</list>
+                        <list>java.net.URI</list>
+                        <list>java.net.ConnectException</list>
+                        <list>java.nio.channels.ClosedChannelException</list>
+
+                        <!-- Tapin Wallet network classes -->
+                        <list>com.tapinwallet.controllers.SetupViewController</list>
+                        <list>com.tapinwallet.util.ApiResponse</list>
+                        <list>com.tapinwallet.util.IdentityCreateResponse</list>
+                        
                         <!--Utilities--> 
                         <list>com.tapinwallet.controllers.ConfigManager</list>
                         <list>com.tapinwallet.util.JSBridge</list>
