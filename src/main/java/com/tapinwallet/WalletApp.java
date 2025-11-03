@@ -18,6 +18,7 @@ public class WalletApp extends Application {
 
         AppShellController controller = loader.getController();
 
+//        I want to convert this to a dynamic entity
         String currentId =  PropertyUtil.get("default", null);
 
         if(currentId == null) {

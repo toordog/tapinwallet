@@ -13,7 +13,8 @@ import javafx.beans.property.SimpleObjectProperty;
 public class AppContext {
     
     private String pass = CryptLite.sha512("pass".getBytes(), "salt".getBytes());
-    public Database profiles = TinyDB.open("profiles", pass);
+    public Database context = TinyDB.open("context", pass);
+    
     public String id;
     
     private final ObjectProperty<ModEntry> selectedMod =

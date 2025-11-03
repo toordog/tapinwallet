@@ -2,19 +2,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
   async function connect() {
   
-    window.tapin.connect("https://s.altnet.rippletest.net:51234",function(result) {
+    xrpl.connect("https://s.altnet.rippletest.net:51234",function(result) {
        
        document.getElementById("networkStatus").textContent = result
        
-       window.tapin.createWallet(function(addr) {
+       xrpl.createWallet(function(addr) {
             document.getElementById("address").textContent = addr
             
-            window.tapin.fundTestnet(function(fund) {
+            xrpl.fundTestnet(function(fund) {
             
-            window.tapin.log('>>>>>>>>>>>>>>>> '+fund);
+            xrpl.log('>>>>>>>>>>>>>>>> '+fund);
             
-                window.tapin.getBalance(function(bal) {
-                window.tapin.log('>>>>>>>>>>>>>>>> '+bal);
+                xrpl.getBalance(function(bal) {
+                xrpl.log('>>>>>>>>>>>>>>>> '+bal);
                     document.getElementById("balance").textContent = bal
                 }); 
                 
@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   async function refreshBalance() {
     try {
-      const bal = await window.tapin.getBalance()
+      const bal = await xrpl.getBalance()
       document.getElementById("balance").textContent = bal
     } catch (e) {
       console.error(e)
@@ -65,7 +65,7 @@ document.addEventListener("DOMContentLoaded", () => {
     statusEl.textContent = "Sending..."
 
     try {
-      const result = await window.tapin.send(to, amt)
+      const result = await xrpl.send(to, amt)
       statusEl.textContent = result
       refreshBalance()
     } catch (e) {

@@ -6,8 +6,11 @@ package com.tapinwallet.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tapinwallet.data.BaseController;
+import com.tapinwallet.util.CryptLite;
 import com.tapinwallet.util.IdentityCreateResponse;
+import com.tapinwallet.util.tinydb.Database;
 import com.tapinwallet.util.tinydb.DynamicEntity;
+import com.tapinwallet.util.tinydb.TinyDB;
 import java.util.Map;
 
 /**
@@ -20,18 +23,21 @@ public class HomeViewController extends BaseController implements AppShellContro
     
     @Override
     public void onAppContextAvailable() {
-        DynamicEntity profile = ctx.profiles.find("Identity", ctx.id);
+        DynamicEntity identity = ctx.context.find("Identity", ctx.id);
         
-        Map<String,Object> tokens = profile.tokenizeFields(new String[] {"name","did"});
-        System.out.println("Name: "+profile.get("name"));
+        Map<String,Object> tokens = identity.tokenizeFields(new String[] {"name","did"});
+        System.out.println("Name: "+identity.get("name"));
         System.out.println("Token: "+tokens.get("name"));
         
-        System.out.println("DID: "+profile.get("did"));
+        System.out.println("DID: "+identity.get("did"));
         System.out.println("Token: "+tokens.get("did"));
         
-        IdentityCreateResponse.Zkp zkp = new ObjectMapper().convertValue(profile.get("zkp"), IdentityCreateResponse.Zkp.class);
+        IdentityCreateResponse.Zkp zkp = new ObjectMapper().convertValue(identity.get("zkp"), IdentityCreateResponse.Zkp.class);
         
         System.out.println("ZKP Valid: "+zkp.isValid());
+        
+        System.out.println("IDentifier: "+identity.get("identifier"));
+        
     }
 
     @Override

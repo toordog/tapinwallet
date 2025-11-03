@@ -7,7 +7,9 @@ import com.tapinwallet.util.CryptLite;
 import com.tapinwallet.util.IdentityCreateResponse;
 import com.tapinwallet.util.IdentityRequestBuilder;
 import com.tapinwallet.util.PropertyUtil;
+import com.tapinwallet.util.tinydb.Database;
 import com.tapinwallet.util.tinydb.DynamicEntity;
+import com.tapinwallet.util.tinydb.TinyDB;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.net.URI;
@@ -21,7 +23,7 @@ import javafx.fxml.FXML;
 
 public class SetupViewController extends BaseController implements AppShellController.HasHost {
 
-    String url = "http://10.25.1.198:8888/cp/identity/create";
+    String url = "http://localhost:8888/cp/identity/create";
 
     private AppShellController host;
 
@@ -72,15 +74,23 @@ public class SetupViewController extends BaseController implements AppShellContr
 //        System.out.println("Signature: " + response.signature());
 //        System.out.println("Identifier: " + identifier);
 
-        DynamicEntity id = ctx.profiles.create("Identity");
+        DynamicEntity id = ctx.context.create("Identity");
         id.set("did", response.body().did());
         id.set("name", "Michael Marquez");
-        
         id.set("zkp", icr.zkp());
+        id.set("artifact", artifact);
+        id.set("identifier", identifier);
+        
         id.persist();
         
         PropertyUtil.set("default", id.getId());
         ctx.id = id.getId();
+        
+        DynamicEntity proofmod = ctx.context.create("AppMod");
+        proofmod.set("name", "Proof Manager");
+        proofmod.set("hash", CryptLite.sha512Random());
+        
+        proofmod.persist();
         
         if (host != null) {
             host.goToHome();

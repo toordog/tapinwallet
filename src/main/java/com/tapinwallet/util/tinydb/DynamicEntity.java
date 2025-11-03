@@ -8,11 +8,12 @@ package com.tapinwallet.util.tinydb;
  *
  * @author mike
  */
+import com.tapinwallet.util.CryptLite;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class DynamicEntity {
-    private final String id = UUID.randomUUID().toString();
+    private final String id = CryptLite.sha512Random();
     private final String type;
     private final Map<String,Object> data = new ConcurrentHashMap<>();
     private final StorageEngine storage;
