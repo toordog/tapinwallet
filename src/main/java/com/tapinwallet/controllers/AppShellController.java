@@ -44,9 +44,11 @@ public class AppShellController implements Initializable {
         rootPane.centerProperty().addListener(centerListener);
 
         // for testing a second app mod
-        AppModHelper.loadModFromResources("proofmanager", "index.xhtml");
-        AppModHelper.loadModFromResources("xrpl_wallet", "index.xhtml");
-        AppModHelper.loadModFromResources("base_template", "index.xhtml");
+        AppModHelper.loadModFromResources("proofmanager", "index.html");
+        AppModHelper.loadModFromResources("xrpl_wallet", "index.html");
+        AppModHelper.loadModFromResources("base_template", "index.html");
+        
+//        AppModHelper.loadModFromDisk("nflpool", "index.html");
     }
 
     public void goToAppTray() {

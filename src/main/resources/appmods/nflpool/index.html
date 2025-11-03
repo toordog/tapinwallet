@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Football Pool</title>
+</head>
+<body>
+<h1>Football Pools</h1>
+<link rel="icon" type="image/svg+xml" href="icon.svg" />
+    <link rel="stylesheet" href="style.css" />
+    <script defer="defer" src="app.js"></script>
+<div class="container">
+  <button onclick="openCreatePopup()">+ New Game</button>
+  <div class="form" style="margin-top:18px">
+    <div class="form-row">
+      <div class="flabel">View Game</div>
+      <div class="fcontrol"><select id="gameSelect" onchange="viewSelectedGame()"></select></div>
+    </div>
+  </div>
+  <div id="games"></div>
+</div>
+
+<!-- Board Modal -->
+<div id="modal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 id="modalTitle"></h2>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- Edit Popup -->
+<div id="editPopup" class="popup">
+  <div class="popup-content">
+    <h3>Edit Game Info</h3>
+    <div class="form">
+      <div class="form-row">
+        <div class="flabel">Quarter</div>
+        <div class="fcontrol">
+          <select id="quarterSelect">
+            <option>1</option><option>2</option><option>3</option><option>4</option><option>OT</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row"><div class="flabel" id="labelA"></div><div class="fcontrol"><input id="scoreA" type="number" min="0"></div></div>
+      <div class="form-row"><div class="flabel" id="labelB"></div><div class="fcontrol"><input id="scoreB" type="number" min="0"></div></div>
+      <div class="form-row">
+        <div class="flabel"></div>
+        <div class="fcontrol">
+          <button onclick="saveEdit()">Save</button>
+          <button style="background:#555;margin-top:8px" onclick="closeEdit()">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Create Game Popup -->
+<div id="createPopup" class="popup">
+  <div class="popup-content">
+    <h3>Create New Game</h3>
+    <div class="form">
+      <div class="form-row"><div class="flabel">Week</div><div class="fcontrol"><select id="weekSelect"></select></div></div>
+      <div class="form-row"><div class="flabel">Team A</div><div class="fcontrol"><select id="teamA"><option value="" disabled selected>Select Team</option></select></div></div>
+      <div class="form-row"><div class="flabel">Team B</div><div class="fcontrol"><select id="teamB"><option value="" disabled selected>Select Team</option></select></div></div>
+      <div class="form-row"><div class="flabel">Grid Size</div><div class="fcontrol"><select id="gridSize"><option value="5">5×5</option><option value="10" selected>10×10</option></select></div></div>
+      <div class="form-row"><div class="flabel"></div><div class="fcontrol"><button onclick="createGame()">Create Game</button><button style="background:#555;margin-top:8px" onclick="closeCreatePopup()">Cancel</button></div></div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -19,18 +19,18 @@ import netscape.javascript.JSObject;
 public class AppModViewController extends BaseController implements AppShellController.HasHost {
 
     DynamicEntity identity;
-            
+
     private JSBridge jsBridge;
     private final XRPLBridge xrplBridge = new XRPLBridge();
-    
+
     private AppShellController host;
 
     @Override
     public void onAppContextAvailable() {
-        
+
         this.identity = ctx.context.find("Identity", ctx.id);
         this.jsBridge = new JSBridge(identity);
-        
+
         WebEngine engine = webView.getEngine();
 
         engine.getLoadWorker().stateProperty().addListener((obs, old, state) -> {
@@ -38,6 +38,21 @@ public class AppModViewController extends BaseController implements AppShellCont
                 JSObject window = (JSObject) engine.executeScript("window");
                 window.setMember("tapin", jsBridge);
                 window.setMember("xrpl", xrplBridge);
+            }
+        });
+
+// Log load errors
+        engine.setOnError(event -> {
+            System.err.println("[WebView Error] " + event.getMessage());
+        });
+
+        engine.setOnAlert(event -> {
+            System.out.println("[JS Alert] " + event.getData());
+        });
+
+        engine.getLoadWorker().exceptionProperty().addListener((obs, oldEx, ex) -> {
+            if (ex != null) {
+                ex.printStackTrace();
             }
         });
 
@@ -49,12 +64,12 @@ public class AppModViewController extends BaseController implements AppShellCont
             headerIcon.setImage(icon);
 
             engine.setJavaScriptEnabled(true);
-            String url = AppModHelper.loadModFromDisk(ctx.getSelectedMod().hash(), "index.xhtml");
+            String url = AppModHelper.loadModFromDisk(ctx.getSelectedMod().hash(), "index.html");
             engine.load(url);
         });
-        
+
     }
-    
+
     @FXML
     WebView webView;
 
@@ -70,7 +85,7 @@ public class AppModViewController extends BaseController implements AppShellCont
         burgerButton.setOnMouseClicked(e -> {
             System.out.println(e);
         });
-        
+
     }
 
     @Override

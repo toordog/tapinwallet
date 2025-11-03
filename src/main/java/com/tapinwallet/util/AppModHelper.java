@@ -189,8 +189,8 @@ public class AppModHelper {
                 return src;
             }
 
-            String stagedName = entryFile.endsWith(".xhtml")
-                    ? entryFile.substring(0, entryFile.length() - ".xhtml".length()) + ".xhtml"
+            String stagedName = entryFile.endsWith(".html")
+                    ? entryFile.substring(0, entryFile.length() - ".html".length()) + ".html"
                     : entryFile + ".tapin";
             Path staged = modDir.resolve(stagedName);
 
@@ -213,7 +213,7 @@ public class AppModHelper {
         // Running from classes folder or Android native image (GraalVM)
         // We cannot walk the filesystem here; resources are embedded.
         String[] knownFiles = new String[]{
-            "index.xhtml",
+            "index.html",
             "style.css",
             "app.js",
             "icon.png",
