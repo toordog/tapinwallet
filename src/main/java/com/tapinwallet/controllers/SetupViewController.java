@@ -23,7 +23,7 @@ import javafx.fxml.FXML;
 
 public class SetupViewController extends BaseController implements AppShellController.HasHost {
 
-    String url = "http://localhost:8888/cp/identity/create";
+    String url = "http://10.25.1.25:8888/cp/identity/create";
 
     private AppShellController host;
 
