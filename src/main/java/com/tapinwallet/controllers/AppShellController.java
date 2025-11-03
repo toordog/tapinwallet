@@ -48,7 +48,7 @@ public class AppShellController implements Initializable {
         AppModHelper.loadModFromResources("xrpl_wallet", "index.html");
         AppModHelper.loadModFromResources("base_template", "index.html");
         
-//        AppModHelper.loadModFromDisk("nflpool", "index.html");
+        AppModHelper.loadModFromResources("nflpool", "index.html");
     }
 
     public void goToAppTray() {
