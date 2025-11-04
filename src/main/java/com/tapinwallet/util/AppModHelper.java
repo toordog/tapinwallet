@@ -7,7 +7,6 @@ import com.tapinwallet.controllers.AppModViewController;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.JarURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.DirectoryStream;
@@ -20,7 +19,6 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.jar.JarFile;
 import javafx.scene.image.Image;
 
 /**
@@ -94,7 +92,7 @@ public class AppModHelper {
         try {
 
             Path base = modsBase();
-            Path modDir = base.resolve(hashName(modName));
+            Path modDir = base.resolve(CryptLite.sha256(modName));
 
             // 1) bootstrap example mod if missing
             ensureModOnDisk(modName, modDir);
@@ -252,22 +250,6 @@ public class AppModHelper {
         } catch (Exception ignored) {
         }
         return base;
-    }
-
-    public static String hashName(String name) {
-        try {
-            MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            byte[] hashBytes = digest.digest(name.getBytes(StandardCharsets.UTF_8));
-
-            // Convert to hex string
-            StringBuilder hex = new StringBuilder();
-            for (byte b : hashBytes) {
-                hex.append(String.format("%02x", b));
-            }
-            return hex.toString();
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException("Hash algorithm not found", e);
-        }
     }
 
 }

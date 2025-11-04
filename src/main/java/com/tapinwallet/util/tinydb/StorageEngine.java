@@ -9,6 +9,7 @@ package com.tapinwallet.util.tinydb;
  * @author mike
  */
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tapinwallet.util.CryptLite;
 import java.io.*;
 import java.nio.file.*;
 import java.util.*;
@@ -28,7 +29,7 @@ public class StorageEngine {
     }
 
     public synchronized void save(String type, String id, Map<String, Object> obj) throws Exception {
-        Path file = basePath.resolve(type + ".db");
+        Path file = basePath.resolve(CryptLite.sha256(type) + ".db");
         RandomAccessFile raf = open.computeIfAbsent(type, t -> {
             try {
                 RandomAccessFile f = new RandomAccessFile(file.toFile(), "rw");
@@ -50,7 +51,7 @@ public class StorageEngine {
     }
 
     public synchronized Map<String, Object> load(String type, String id) throws Exception {
-        Path file = basePath.resolve(type + ".db");
+        Path file = basePath.resolve(CryptLite.sha256(type) + ".db");
         if (!Files.exists(file)) {
             return null;
         }
@@ -78,7 +79,7 @@ public class StorageEngine {
     }
 
     private void saveIndex(String type) throws IOException {
-        Path idxFile = basePath.resolve(type + ".index");
+        Path idxFile = basePath.resolve(CryptLite.sha256(type) + ".index");
         try (ObjectOutputStream out = new ObjectOutputStream(Files.newOutputStream(idxFile))) {
             out.writeObject(index.get(type));
         }
@@ -86,7 +87,7 @@ public class StorageEngine {
 
     @SuppressWarnings("unchecked")
     private void loadIndex(String type) {
-        Path idxFile = basePath.resolve(type + ".index");
+        Path idxFile = basePath.resolve(CryptLite.sha256(type) + ".index");
         if (Files.exists(idxFile)) {
             try (ObjectInputStream in = new ObjectInputStream(Files.newInputStream(idxFile))) {
                 index.put(type, (Map<String, Long>) in.readObject());

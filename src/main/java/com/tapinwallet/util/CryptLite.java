@@ -1,6 +1,7 @@
 package com.tapinwallet.util;
 
 import java.io.StringWriter;
+import java.nio.charset.StandardCharsets;
 import java.security.*;
 import java.security.spec.*;
 import org.bouncycastle.crypto.Digest;
@@ -54,6 +55,22 @@ public final class CryptLite {
         digest.doFinal(output, 0);
 
         return org.bouncycastle.util.encoders.Hex.toHexString(output);
+    }
+    
+    public static String sha256(String name) {
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hashBytes = digest.digest(name.getBytes(StandardCharsets.UTF_8));
+
+            // Convert to hex string
+            StringBuilder hex = new StringBuilder();
+            for (byte b : hashBytes) {
+                hex.append(String.format("%02x", b));
+            }
+            return hex.toString();
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException("Hash algorithm not found", e);
+        }
     }
     
     private static byte[] generateRandomSeed() {
