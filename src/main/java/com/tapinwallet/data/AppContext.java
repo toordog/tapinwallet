@@ -12,7 +12,7 @@ import javafx.beans.property.SimpleObjectProperty;
  */
 public class AppContext {
     
-    private String pass = CryptLite.sha512("pass".getBytes(), "salt".getBytes());
+    private String pass = CryptLite.sha512("defaultpassword".getBytes(), "defaultsalt".getBytes());
     public Database context = TinyDB.open("context", pass);
     
     public String id;

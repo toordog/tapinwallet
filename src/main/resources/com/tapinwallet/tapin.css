@@ -102,7 +102,7 @@
     /* softer inner shadow: lighter opacity, smaller radius */
     /*-fx-effect: innershadow(gaussian, rgba(0,0,0,0.15), 5, 0.3, 0, 1);*/
 
-    -fx-padding: 14;
+    -fx-padding: 10;
     -fx-hgap: 14;
     -fx-vgap: 14;
 }
@@ -128,14 +128,19 @@
 
 .app-icon {
     -fx-alignment: center;
-    -fx-spacing: 2px;
-    -fx-padding: 4px;
+    -fx-spacing: 4 4 4 4;
+    -fx-padding: 4 1 2 1;
+    
+    /*-fx-border-color: #ffffff;      border color */
+    -fx-border-width: 1;           /* border thickness */
+    -fx-border-radius: 5;         /* rounded corners */
+    -fx-background-radius: 5;     /* match background to border radius */
 }
 
 .app-icon-img {
-    -fx-font-size: 18px;
+    -fx-font-size: 16px;
     -fx-text-fill: #0f1220;
-    -fx-padding: 8;
+    -fx-padding: 5;
     -fx-background-color: white;
     -fx-background-radius: 8;
 

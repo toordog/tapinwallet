@@ -7,17 +7,13 @@ import com.tapinwallet.util.CryptLite;
 import com.tapinwallet.util.IdentityCreateResponse;
 import com.tapinwallet.util.IdentityRequestBuilder;
 import com.tapinwallet.util.PropertyUtil;
-import com.tapinwallet.util.tinydb.Database;
 import com.tapinwallet.util.tinydb.DynamicEntity;
-import com.tapinwallet.util.tinydb.TinyDB;
 import java.io.IOException;
-import java.math.BigInteger;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
-import java.util.HashMap;
 import java.util.Map;
 import javafx.fxml.FXML;
 
@@ -85,13 +81,7 @@ public class SetupViewController extends BaseController implements AppShellContr
         
         PropertyUtil.set("default", id.getId());
         ctx.id = id.getId();
-        
-        DynamicEntity proofmod = ctx.context.create("AppMod");
-        proofmod.set("name", "Proof Manager");
-        proofmod.set("hash", CryptLite.sha512Random());
-        
-        proofmod.persist();
-        
+
         if (host != null) {
             host.goToHome();
         }
