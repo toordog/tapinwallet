@@ -30,6 +30,8 @@ mvn help:effective-pom | grep gluonfx.maven.plugin.version
 | **macOS** | `mvn -Pmacos-x64 clean javafx:run` |
 | **Linux** | `mvn -Plinux-x64 clean javafx:run` |
 | **Windows** | `mvn -Pdesktop clean javafx:run` |
+| **All Clean** | `mn clean`|
+| **All Clean (take caution)** | `rm -rfv ~/appmods ~/tapinwallet` |
 
 ---
 
