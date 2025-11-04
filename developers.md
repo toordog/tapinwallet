@@ -1,6 +1,6 @@
 # Tapin Wallet Developer Guide
 
-Tapin Wallet is a crypto data wallet powered by Bitcrumb, built using JavaFX, Gluon, and GraalVM. It runs on macOS, Linux, Windows, Android, and iOS, allowing users to self-custody verifiable data using Bitcrumb’s proof-of-origin network. The project is designed to be fully cross-platform with a unified build system using Maven and GluonFX.
+Tapin Wallet is a interoperable crypto data wallet powered by the Bitcrumb network, built using JavaFX, Gluon, and GraalVM. It runs on macOS, Linux, Windows, Android, and iOS, allowing users to self-custody verifiable data using Bitcrumb’s proof-of-origin network. The project is designed to be fully cross-platform with a unified build system using Maven and GluonFX.
 
 ---
 
@@ -12,6 +12,7 @@ Tapin Wallet is a crypto data wallet powered by Bitcrumb, built using JavaFX, Gl
 | **Maven** | 3.9.11 | Unified build tool |
 | **JavaFX** | 24.0.2 | Cross-platform UI framework |
 | **GluonFX Maven Plugin** | 1.0.25 | For mobile/native builds |
+| **Netbeans** | 27 | IDE |
 
 To verify versions:  
 ```bash
@@ -36,31 +37,33 @@ mvn help:effective-pom | grep gluonfx.maven.plugin.version
 
 | Platform | Command | Notes |
 |-----------|----------|-------|
-| **Android** | `mvn -Pandroid -Djava.home="$GRAALVM_HOME" clean gluonfx:compile gluonfx:link gluonfx:package gluonfx:install gluonfx:nativerun` | Build from Linux |
-| **iOS** | `mvn -Pios -Djava.home="$GRAALVM_HOME" clean gluonfx:compile gluonfx:link gluonfx:package gluonfx:install gluonfx:nativerun` | Requires macOS and Xcode |
+| **Android** | `mvn -Pandroid clean gluonfx:compile gluonfx:link gluonfx:package gluonfx:install gluonfx:nativerun` | Build from Android |
+| **iOS** | `need ios target` | Requires macOS and Xcode |
 
 ---
 
 ## Environment Setup
 
-| System | Commands |
-|---------|-----------|
-| **macOS** | ```bash
+### macOS
+```bash
 export JAVA_HOME=$(/usr/libexec/java_home)
 export GRAALVM_HOME=/Library/Java/JavaVirtualMachines/graalvm-25.jdk/Contents/Home
 export PATH="$GRAALVM_HOME/bin:$PATH"
-``` |
-| **Linux** | ```bash
+```
+
+### Linux
+```bash
 export JAVA_HOME=/usr/lib/jvm/graalvm
 export GRAALVM_HOME=/usr/lib/jvm/graalvm
 export PATH="$GRAALVM_HOME/bin:$PATH"
-``` |
-| **Windows (PowerShell)** | ```powershell
+```
+
+### Windows (PowerShell)
+```powershell
 setx JAVA_HOME "C:\Program Files\GraalVM\graalvm-25"
 setx GRAALVM_HOME "C:\Program Files\GraalVM\graalvm-25"
 setx PATH "%GRAALVM_HOME%\bin;%PATH%"
-``` |
-
+```
 ---
 
 ## Project Information
@@ -72,18 +75,6 @@ setx PATH "%GRAALVM_HOME%\bin;%PATH%"
 | **Platform Profiles** | `macos-x64`, `linux-x64`, `desktop`, `android`, `ios` |
 | **Build Tool** | Maven (configured via `pom.xml`) |
 | **Native Builds** | Require GraalVM with native-image (`gu install native-image`) |
-
----
-
-## Common Maven Commands
-
-| Purpose | Command |
-|----------|----------|
-| Run desktop app | `mvn -Pdesktop clean javafx:run` |
-| Build native Android app | `mvn -Pandroid-x64 clean gluonfx:compile gluonfx:link gluonfx:package` |
-| Package and install native app | `mvn -Pandroid-x64 gluonfx:package gluonfx:install` |
-| Clean build | `mvn clean` |
-| Mode Targets | `-Pmacos-x64` |
 
 ---
 
