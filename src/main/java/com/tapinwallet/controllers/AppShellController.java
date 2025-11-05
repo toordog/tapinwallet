@@ -4,6 +4,7 @@ import com.tapinwallet.WalletApp;
 import com.tapinwallet.data.AppContext;
 import com.tapinwallet.data.BaseController;
 import com.tapinwallet.util.AppModHelper;
+import com.tapinwallet.util.PopupManager;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,13 +17,16 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 
 public class AppShellController implements Initializable {
 
     public AppContext ctx = new AppContext();
 
     @FXML
-    private BorderPane rootPane;
+    private BorderPane mainBorderPane;
+    
+    @FXML private StackPane rootPane;
 
     @FXML
     HBox navBar;
@@ -33,15 +37,17 @@ public class AppShellController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
+        PopupManager.setRootContainer(rootPane);
+        
         centerListener = (obs, oldNode, newNode) -> {
             
             if(showTools) {
                 navBar.setVisible(true);
-                rootPane.centerProperty().removeListener(centerListener);
+                 mainBorderPane.centerProperty().removeListener(centerListener);
             }
 
         };
-        rootPane.centerProperty().addListener(centerListener);
+        mainBorderPane.centerProperty().addListener(centerListener);
 
         // for testing a second app mod
         AppModHelper.loadModFromResources("proofmanager", "index.html");
@@ -94,7 +100,7 @@ public class AppShellController implements Initializable {
 
             }
             
-            rootPane.setCenter(view);
+            mainBorderPane.setCenter(view);
         } catch (IOException e) {
             e.printStackTrace();
         }

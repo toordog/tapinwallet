@@ -75,6 +75,7 @@ public class SetupViewController extends BaseController implements AppShellContr
         id.set("name", "Michael Marquez");
         id.set("zkp", icr.zkp());
         id.set("artifact", artifact);
+        id.set("updated", false);
         id.set("identifier", identifier);
         
         id.persist();

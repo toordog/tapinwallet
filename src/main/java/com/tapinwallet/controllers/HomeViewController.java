@@ -6,11 +6,9 @@ package com.tapinwallet.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tapinwallet.data.BaseController;
-import com.tapinwallet.util.CryptLite;
 import com.tapinwallet.util.IdentityCreateResponse;
-import com.tapinwallet.util.tinydb.Database;
+import com.tapinwallet.util.PopupManager;
 import com.tapinwallet.util.tinydb.DynamicEntity;
-import com.tapinwallet.util.tinydb.TinyDB;
 import java.util.Map;
 
 /**
@@ -37,6 +35,10 @@ public class HomeViewController extends BaseController implements AppShellContro
         System.out.println("ZKP Valid: "+zkp.isValid());
         
         System.out.println("IDentifier: "+identity.get("identifier"));
+        
+        if(!(boolean)identity.get("updated")) {
+            PopupManager.showPopup("/com/tapinwallet/update_identifier.fxml");
+        }
         
     }
 
